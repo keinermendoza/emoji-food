@@ -1,0 +1,57 @@
+/* :root {
+  --back--color: #E1FFEE;
+  --let--color: #7FBCD2;
+  --bord--color: #A5F1E9;
+  --pad--color: #FFEEAF;
+} */
+
+
+button {
+  padding: 1rem;
+}
+p, a {
+  color: var(--let--color, black); 
+}
+body {
+  background-color: var(--back--color, #E1FFEE);
+  color: var(--let--color, black);
+}
+
+/* div {
+  background-color: var(--pad--color, #FFEEAF);
+  border: solid var(--bord--color, #A5F1E9) 1rem;
+} */
+
+/* Un atributo que creare en la root del html (creo) con en js */
+[tema="sun"]{
+  --back--color: #FFEEAF;
+  --let--color: rgb(0, 0, 0);
+  --bord--color: #A5F1E9;
+  --pad--color: #7FBCD2;
+}
+
+/* Un atributo que creare en la root del html (creo) con en js */
+[tema="moon"] {
+  --back--color: #4C0033;
+  --let--color: #E80F88;
+  --bord--color: #AF0171;
+  --pad--color: #790252;
+}
+
+/* FOR REGISTER PAGE */
+
+.Register-error {
+  color:red;
+}   
+
+/* pantallas grandes */
+@media (min-width: 900px) {
+  
+  .Register-error {   
+      position: relative;
+      top: -2rem;
+      left: calc(50vw + 8rem) ;
+      float:left;
+  }
+}
+

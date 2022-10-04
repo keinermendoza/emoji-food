@@ -1,0 +1,17 @@
+$moon-letter: rgb(230, 14, 230);
+$moon-back: #201;
+$moon-border: rgb(54, 46, 29); 
+
+$sun-letter: rgb(87, 36, 2);
+$sun-back: rgb(137, 226, 184);
+$sun-border: rgb(133, 92, 6); 
+
+.body-day {
+    color: $sun-letter;
+    background-color: $sun-back;
+}
+
+.body-moon {
+    color: $moon-letter;
+    background-color: $sun-back;
+}

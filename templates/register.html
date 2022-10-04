@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+            <div class="mb-3">
+
+                <!-- pattern copied from https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html -->
+                <input autocomplete="off" requerid pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" 
+                autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text" 
+                required="required" title="Must register a valid email">
+
+                {% if repeat_email %}
+                <span class="Register-error">{{email}}</span>
+                <br>
+                <span class="Register-error"> already exist</span>
+                {% endif %}
+
+                {% if noemail %}
+                <span class="Register-error">{{noemail}}</span>
+                {% endif %}
+
+            </div>
+
+        
+
+            <div class="mb-3">
+                <input autocomplete="off" class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username"
+                 type="text" required title="Must register an username">
+
+                {% if repeat_name %}
+                <span class="Register-error">{{username}}</span>
+                <br>
+                <span class="Register-error"> already exist</span>
+                {% endif %}
+
+                {% if noname %}
+                <span class="Register-error">{{noname}}</span>
+                {% endif %}
+
+            </div>
+
+        <div class="mb-3">
+
+            <!-- pattern copied from http://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=psw -->
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"  
+            required title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
+
+            <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
+
+
+            {% if nopass %}
+            <span class="Register-error">{{nopass}}</span>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+                <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" 
+                type="password" title="Must confirm your password">
+
+                {% if noconfirm %}
+                <span class="Register-error">{{noconfirm}}</span>
+                {% endif %}
+                {% if nomatch %}
+                <span class="Register-error">{{nomatch}}</span>
+                {% endif %}
+                <span id="password-state-match"></span>
+        </div>
+
+        <div>
+            <p>Password must have from 8 to 16 characters, at least one upper,
+                 one lower, one number and one symbol.</p>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+{% endblock %}
+
+{% block bottom %}
+<script>
+    
+    var match = document.getElementById('password-state-match');
+    
+    // the idea of make a list comes from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
+    // the array sintaxis too. 
+    [document.getElementById('password'), document.getElementById("confirmation")].forEach(item => {
+        item.addEventListener('input', event => {
+            password = document.getElementById('password').value;
+            confirmation = document.getElementById("confirmation").value;
+
+            if (password == "" || confirmation == "") {
+                match.innerHTML = "";
+            }
+            else if (password == confirmation) {
+                match.innerHTML = "Password match";
+            }
+            else {
+                match.innerHTML = "Password not match yet";
+            }
+        })
+    })
+
+    
+</script>
+
+{% endblock %}
