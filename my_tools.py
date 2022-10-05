@@ -1,6 +1,30 @@
 # THIS CODE IS FROM HELPERS.PY CS50
+from flask_mail import Message
 from flask import redirect, render_template, request, session
 from functools import wraps
+
+# importing my credencias from env
+from decouple import config
+
+def messenger(destiny, name, reason):
+    # Config a Message object for send to user email
+        if reason == "register":
+            message = Message("Hello"+name+"and Wellcome to Expenses and Savings", recipients=[destiny])    
+            message.body = 'We are really happy, if this message arrive in the spam folder we ask you for mark it like not-spam.'
+            
+            return message
+
+        if reason == "restart-password":
+            message = Message("Restarting your password", recipients=[destiny])
+            # Buildng a personal message using api.memegen
+            textToImg0 ='<img src="https://api.memegen.link/images/jim/'
+            textToImg1 = "don't_worry_"
+            textToImg2 ='_this_happens_all_the_time/Just_click_on_the_link_above_for_restart_your_password.png">'
+            img = textToImg0 + textToImg1 + name + textToImg2
+            message.body = 'here will be soon a lonk to restart your password'
+            message.html = img 
+    
+            return message
 
 
 def apology(message, code=400):

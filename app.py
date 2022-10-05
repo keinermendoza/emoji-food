@@ -3,7 +3,7 @@ from decouple import config
 # database
 from cs50 import SQL
 # helpers
-from my_tools import apology, login_required, usd
+from my_tools import messenger, apology, login_required, usd
 
 from flask import Flask, flash, redirect, render_template, request, session, g
 from flask_session import Session
@@ -60,23 +60,9 @@ def restPass():
             noregister = "It's not register"
             return render_template("restart-password.html", noregister=noregister, emailError=email)
         
-        # Config a Message object for send to user email
-        message = Message("Restarting your password", recipients=[email])
-
-
-        # Buildng a personal message using api.memegen
-        textToImg0 ='<img src="https://api.memegen.link/images/jim/'
-        textToImg1 = "don't_worry_"
-        textToImg2 ='_this_happens_all_the_time/Just_click_on_the_link_above_for_restart_your_password.png">'
-        img = textToImg0 + textToImg1 + username_hash[0]["username"] + textToImg2
-        message.body = 'here will be soon a lonk to restart your password'
-        message.html = img 
-    
-        # Sending email
+        message = messenger(email, username_hash[0]["username"], "restart-password")
         mail.send(message)
-
-        # Displaying succes message
-        succes = "Check your in-box email"
+        succes = "Check on your Mail Box"
         return render_template("restart-password.html", succes=succes) 
 
     # Show the restart-password form
@@ -87,7 +73,7 @@ def restPass():
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
-    # Forget any user_idcd
+    # Forget any user_id
     session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
