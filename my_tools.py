@@ -1,31 +1,44 @@
-# THIS CODE IS FROM HELPERS.PY CS50
 from flask_mail import Message
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, url_for
 from functools import wraps
+import jwt
 
 # importing my credencias from env
 from decouple import config
 
-def messenger(destiny, name, reason):
+def messenger(destiny, name, reason, token=0):
+    
     # Config a Message object for send to user email
         if reason == "register":
-            message = Message("Hello"+name+"and Wellcome to Expenses and Savings", recipients=[destiny])    
+            message = Message("Hello "+name+" and Wellcome to Expenses and Savings", recipients=[destiny])    
             message.body = 'We are really happy, if this message arrive in the spam folder we ask you for mark it like not-spam.'
             
             return message
 
         if reason == "restart-password":
             message = Message("Restarting your password", recipients=[destiny])
+            
             # Buildng a personal message using api.memegen
-            textToImg0 ='<img src="https://api.memegen.link/images/jim/'
-            textToImg1 = "don't_worry_"
-            textToImg2 ='_this_happens_all_the_time/Just_click_on_the_link_above_for_restart_your_password.png">'
-            img = textToImg0 + textToImg1 + name + textToImg2
-            message.body = 'here will be soon a lonk to restart your password'
-            message.html = img 
-    
+            message.html =f''' <h2>Hello {name}</h2>
+            <img src="https://api.memegen.link/images/jim/don't_worry_{name}_this_happens_all_the_time/Just_click_on_the_link_bellow_for_restart_your_password.png">
+            <p>Click on the link bellow for restart your password</p>
+            <a href="{url_for('reset_verified', token=token,_external=True)}">This link contains a token to reset your password</a>
+            '''
             return message
+          
 
+# I toke an example from https://pyjwt.readthedocs.io/en/latest/usage.html
+# make a token using jwt.
+def get_reset_token(user_id):
+    return jwt.encode({"id": user_id}, config("SECRET_KEY"), algorithm="HS256")
+
+# load a token
+def verify_reset_token(token):
+    try:
+        user_id = jwt.decode(token, config("SECRET_KEY"), algorithms="HS256")["id"]
+    except:
+        return None
+    return user_id 
 
 def apology(message, code=400):
     """Render message as an apology to user."""
