@@ -54,13 +54,13 @@ def password_reset():
         # Check if user give an email
         if not email:
             noemail = "Must give an email"
-            return render_template("restart-password.html", noemail=noemail)
+            return render_template("send_reset_password.html", noemail=noemail)
 
         # Check if email already exist in database
         username_id = db.execute("SELECT username, id FROM users WHERE email = ?", email)
         if not username_id:
             noregister = "It's not register"
-            return render_template("restart-password.html", noregister=noregister, emailError=email)
+            return render_template("send_reset_password.html", noregister=noregister, emailError=email)
         
         # making a token for restart password, using my_tools
         token = get_reset_token(username_id[0]["id"])
@@ -72,31 +72,94 @@ def password_reset():
         mail.send(message)
         
         # show message of success and redirect to login page
-        flash("Check on your Mail Box", "message")
-        return redirect("/login") 
+        flash("Check on your Mail Box", "warning")
+        return render_template("send_reset_password.html") 
 
     # Show the restart-password form
-    return render_template("restart-password.html")
+    return render_template("send_reset_password.html")
+
 
 # I toke the idea for this from https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968 
 # and specially from https://www.youtube.com/watch?v=zYWpEJAHvaI
 
 @app.route('/password_reset_verified/<token>', methods=['GET', 'POST'])
 def reset_verified(token):
-
+    
     user = verify_reset_token(token)
     if not user:
-        print('no user found')
         flash("id no encontrado", "warning")
         return redirect(url_for('password_reset'))
+    
+    if request.method == "POST":
+        # Ensure password was register
+        if not request.form.get("password"):
+            nopass = "must register a password"
+            return render_template("change_password.html", nopass=nopass, token=token)
 
-    password = request.form.get('password')
-    if password:
-        flash("contraseña cambiada con exito, FALTA GUARDARLA EN EL BACKEND", "success")
+        # Ensure confirm-password register
+        elif not request.form.get("confirmation"):
+            noconfirm = "must confirm your password"
+            return render_template("change_password.html", noconfirm=noconfirm, token=token)
+
+        # Ensure password was submitted
+        elif request.form.get("password") != request.form.get("confirmation"):
+            nomatch = "confirm password not macht"
+            return render_template("change_password.html", nomatch=nomatch, token=token)
+        
+        # Storing data in database
+        password = generate_password_hash(request.form.get("password"))
+        db.execute("UPDATE users SET hash = ? WHERE  id = ?", password, user)
+
+        flash("Please check your email box, we'v send a link to restart your password", "message")
         return redirect(url_for('login'))
 
-    return apology("Aqui falta mostrar el formulario para guardar la nueva contraseña")
+    # Show form
+    return render_template("change_password.html", token=token)
 
+@app.route("/change_password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    if request.method == "POST":
+        old_password = request.form.get("old_password")
+        
+        # Ensure old_password was provide        
+        if not old_password:
+            nooldpass = "must provide your active password"
+            return render_template("change_password.html", nooldpass=nooldpass)
+        
+        # asking for active password
+        rows = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        if not check_password_hash(rows[0]["hash"], old_password):
+            nocheck = "incorrect password"
+            return render_template("change_password.html", nocheck=nocheck)
+
+        # Ensure password was register
+        elif not request.form.get("password"):
+            nopass = "must register a password"
+            return render_template("change_password.html", nopass=nopass)
+
+        # Ensure confirm-password register
+        elif not request.form.get("confirmation"):
+            noconfirm = "must confirm your password"
+            return render_template("change_password.html", noconfirm=noconfirm)
+
+        # Ensure password was submitted
+        elif request.form.get("password") != request.form.get("confirmation"):
+            nomatch = "confirm password not macht"
+            return render_template("change_password.html", nomatch=nomatch)
+        
+        # Storing data in database
+        password = generate_password_hash(request.form.get("password"))
+        db.execute("UPDATE users SET hash = ? WHERE  id = ?", password, session["user_id"])
+
+        flash("Please check your email box, we'v send a link to restart your password", "message")
+        return redirect("/login")
+
+    return render_template("change_password.html")
+
+@app.route("/acount", methods=["GET", "POST"])
+def acount():
+    return render_template("acount.html")
 
 
 """THIS IS AN REMAKE OF MY FINANCE PROJECT"""
