@@ -11,7 +11,7 @@
                 <!-- pattern copied from https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html -->
                 <input autocomplete="off" requerid pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" 
                 autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text" 
-                required="required" title="Must register a valid email">
+                 title="Must register a valid email">
 
                 {% if repeat_email %}
                 <span class="Register-error">{{email}}</span>
@@ -29,7 +29,7 @@
 
             <div class="mb-3">
                 <input autocomplete="off" class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username"
-                 type="text" required title="Must register an username">
+                 type="text"  title="Must register an username">
 
                 {% if repeat_name %}
                 <span class="Register-error">{{username}}</span>
@@ -47,7 +47,7 @@
 
             <!-- pattern copied from http://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=psw -->
             <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"  
-            required title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
+             title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
 
             <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
 
