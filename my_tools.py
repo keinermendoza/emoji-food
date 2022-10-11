@@ -1,10 +1,11 @@
+import os
+# importing my credencias from env
+from boto.s3.connection import S3Connection
+
 from flask_mail import Message
 from flask import redirect, render_template, request, session, url_for
 from functools import wraps
 import jwt
-
-# importing my credencias from env
-from decouple import config
 
 def messenger(destiny, name, reason, token=0):
     
@@ -30,12 +31,12 @@ def messenger(destiny, name, reason, token=0):
 # I toke an example from https://pyjwt.readthedocs.io/en/latest/usage.html
 # make a token using jwt.
 def get_reset_token(user_id):
-    return jwt.encode({"id": user_id}, config("SECRET_KEY"), algorithm="HS256")
+    return jwt.encode({"id": user_id}, S3Connection(os.environ['SECRET_KEY']), algorithm="HS256")
 
 # load a token
 def verify_reset_token(token):
     try:
-        user_id = jwt.decode(token, config("SECRET_KEY"), algorithms="HS256")["id"]
+        user_id = jwt.decode(token, S3Connection(os.environ['SECRET_KEY']), algorithms="HS256")["id"]
     except:
         return None
     return user_id 
