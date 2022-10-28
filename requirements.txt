@@ -3,7 +3,7 @@ flask_session
 gunicorn>=20.1.0
 flask_mail
 cs50
-boto.s3.connection
+boto
 sqlalchemy
 sqlalchemy.orm
 Jinja2>=3.0.3
