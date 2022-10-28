@@ -7,6 +7,8 @@ from flask import redirect, render_template, request, session, url_for
 from functools import wraps
 import jwt
 
+s3 = S3Connection(os.environ['SECRET_KEY'])
+
 def messenger(destiny, name, reason, token=0):
     
     # Config a Message object for send to user email
@@ -31,29 +33,29 @@ def messenger(destiny, name, reason, token=0):
 # I toke an example from https://pyjwt.readthedocs.io/en/latest/usage.html
 # make a token using jwt.
 def get_reset_token(user_id):
-    return jwt.encode({"id": user_id}, S3Connection(os.environ['SECRET_KEY']), algorithm="HS256")
+    return jwt.encode({"id": user_id}, os.environ['SECRET_KEY'], algorithm="HS256")
 
 # load a token
 def verify_reset_token(token):
     try:
-        user_id = jwt.decode(token, S3Connection(os.environ['SECRET_KEY']), algorithms="HS256")["id"]
+        user_id = jwt.decode(token, os.environ['SECRET_KEY'], algorithms="HS256")["id"]
     except:
         return None
     return user_id 
 
-def apology(message, code=400):
-    """Render message as an apology to user."""
-    def escape(s):
-        """
-        Escape special characters.
+# def apology(message, code=400):
+#     """Render message as an apology to user."""
+#     def escape(s):
+#         """
+#         Escape special characters.
 
-        https://github.com/jacebrowning/memegen#special-characters
-        """
-        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
-                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
-            s = s.replace(old, new)
-        return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
+#         https://github.com/jacebrowning/memegen#special-characters
+#         """
+#         for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
+#                          ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
+#             s = s.replace(old, new)
+#         return s
+#     return render_template("apology.html", top=code, bottom=escape(message)), code
 
 
 def login_required(f):
@@ -68,8 +70,3 @@ def login_required(f):
             return redirect("/login")
         return f(*args, **kwargs)
     return decorated_function
-
-
-def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"

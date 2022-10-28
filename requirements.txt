@@ -5,3 +5,5 @@ flask_mail
 werkzeug
 cs50
 boto
+sqlalchemy
+sqlalchemy.orm

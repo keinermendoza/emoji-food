@@ -2,7 +2,8 @@ from boto.s3.connection import S3Connection
 import os
 
 # database
-from cs50 import SQL
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 # helpers
 from my_tools import messenger, apology, login_required, usd, get_reset_token, verify_reset_token
@@ -12,6 +13,7 @@ from flask_session import Session
 from flask_mail import Mail, Message
 from werkzeug.security import check_password_hash, generate_password_hash
 
+s3 = S3Connection(os.environ['MAIL_DEFAULT_SENDER'], os.environ['MAIL_PASSWORD'], os.environ['MAIL_USERNAME'], os.environ['SECRET_KEY'])
 
 app = Flask(__name__)
 
@@ -27,16 +29,17 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure send emails
-app.config["MAIL_DEFAULT_SENDER"] = S3Connection(os.environ['MAIL_DEFAULT_SENDER'])
-app.config["MAIL_PASSWORD"] = S3Connection(os.environ['MAIL_PASSWORD'])
+app.config["MAIL_DEFAULT_SENDER"] = os.environ['MAIL_DEFAULT_SENDER']
+app.config["MAIL_PASSWORD"] = os.environ['MAIL_PASSWORD']
 app.config["MAIL_PORT"] = 587
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = S3Connection(os.environ['MAIL_USERNAME'])
+app.config["MAIL_USERNAME"] = os.environ['MAIL_USERNAME']
 mail = Mail(app)
 
-# Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///test.db")
+# Configure Postrge Heroku as database
+engine = create_engine(os.environ['DATABASE_URL'])
+db = scoped_session(sessionmaker(bind=engine))
 
 @app.after_request
 def after_request(response):
@@ -59,16 +62,16 @@ def password_reset():
             return render_template("send_reset_password.html", noemail=noemail)
 
         # Check if email already exist in database
-        username_id = db.execute("SELECT username, id FROM users WHERE email = ?", email)
-        if not username_id:
+        user = db.execute("SELECT username, id FROM users WHERE email = :email", {"email":email}).fetchone()
+        if not user:
             noregister = "It's not register"
             return render_template("send_reset_password.html", noregister=noregister, emailError=email)
         
         # making a token for restart password, using my_tools
-        token = get_reset_token(username_id[0]["id"])
+        token = get_reset_token(user.id)
         
         # making and Mail object, whit a token inside, using my_tools
-        message = messenger(email, username_id[0]["username"], "restart-password", token)
+        message = messenger(user.email, "restart-password", token)
         
         # sending email
         mail.send(message)
@@ -87,8 +90,8 @@ def password_reset():
 @app.route('/password_reset_verified/<token>', methods=['GET', 'POST'])
 def reset_verified(token):
     
-    user = verify_reset_token(token)
-    if not user:
+    user_id = verify_reset_token(token)
+    if not user_id:
         flash("id no encontrado", "warning")
         return redirect(url_for('password_reset'))
     
@@ -110,7 +113,8 @@ def reset_verified(token):
         
         # Storing data in database
         password = generate_password_hash(request.form.get("password"))
-        db.execute("UPDATE users SET hash = ? WHERE  id = ?", password, user)
+        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":password, "id":user_id})
+        db.commit()
 
         flash("Please check your email box, we'v send a link to restart your password", "message")
         return redirect(url_for('login'))
@@ -130,8 +134,8 @@ def change_password():
             return render_template("change_password.html", nooldpass=nooldpass)
         
         # asking for active password
-        rows = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
-        if not check_password_hash(rows[0]["hash"], old_password):
+        check = db.execute("SELECT hash FROM users WHERE id = :id", {"id":session["user_id"]}).fetchone()
+        if not check_password_hash(check.hash, old_password):
             nocheck = "incorrect password"
             return render_template("change_password.html", nocheck=nocheck)
 
@@ -152,7 +156,9 @@ def change_password():
         
         # Storing data in database
         password = generate_password_hash(request.form.get("password"))
-        db.execute("UPDATE users SET hash = ? WHERE  id = ?", password, session["user_id"])
+
+        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":password, "id":session["user_id"]})
+        db.commit()
 
         flash("Please check your email box, we'v send a link to restart your password", "message")
         return redirect("/login")
@@ -183,14 +189,14 @@ def login():
             return apology("must provide password", 403)
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        user = db.execute("SELECT * FROM users WHERE username = :username", {"username":request.form.get("username")}).fetchall()
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if user is None or not check_password_hash(user.hash, request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        session["user_id"] = user.id
 
         # Redirect user to home page
         return redirect("/")
@@ -242,22 +248,22 @@ def register():
 
         # Ensure username was not exist in dataBase
         username = request.form.get("username")
-        repeat_name = db.execute("SELECT username FROM users WHERE username = ?", username)
+        repeat_name = db.execute("SELECT username FROM users WHERE username = :username", {"username":username}).fetchone()
 
         if repeat_name:
             return render_template("register.html", username=username, repeat_name=repeat_name)
 
         # Ensure email was not exist in dataBase
         email = request.form.get("email")
-        repeat_email = db.execute("SELECT email FROM users WHERE username = ?", email)
+        repeat_email = db.execute("SELECT email FROM users WHERE email = :email", {"email":email}).fetchone()
 
         if repeat_email:
             return render_template("register.html", email=email, repeat_email=repeat_email)
 
         # Storing data in database
         password = generate_password_hash(request.form.get("password"))
-        db.execute("INSERT INTO users (username, email, hash) VALUES (?,?,?)", username, email, password)
-
+        db.execute("INSERT INTO users (username, email, hash) VALUES (:username,:email,:hash)", {"username":username, "email":email, "password":password})
+        db.commit()
         #redirect to login page
         return redirect("/login")
 
