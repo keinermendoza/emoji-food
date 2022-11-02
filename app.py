@@ -13,7 +13,7 @@ from flask_session import Session
 from flask_mail import Mail, Message
 from werkzeug.security import check_password_hash, generate_password_hash
 
-s3 = S3Connection(os.environ['MAIL_DEFAULT_SENDER'], os.environ['MAIL_PASSWORD'], os.environ['MAIL_USERNAME'], os.environ['SECRET_KEY'], os.environ['DATABASE'])
+s3 = S3Connection(os.environ['HOSTING'], os.environ['MAIL_DEFAULT_SENDER'], os.environ['MAIL_PASSWORD'], os.environ['MAIL_USERNAME'], os.environ['SECRET_KEY'], os.environ['DATABASE'])
 
 app = Flask(__name__)
 
