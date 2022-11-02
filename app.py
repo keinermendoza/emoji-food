@@ -190,21 +190,21 @@ def login():
         password = request.form.get("password")
 
         if not email:
-            flash("must provide an username", "warning")
-            return redirect(url_for('login'))
+            flash("must provide an username", "error")
+            return render_template("login.html")
 
         # Ensure password was submitted
         elif not password:
-            flash("must provide password", "warning")
-            return redirect(url_for('login'))
+            flash("must provide password", "error")
+            return render_template("login.html")
 
         # Query database for username
         user = db.execute("SELECT id, username, hash FROM users WHERE email = :email", {"email":email}).fetchone()
         
         # Ensure username exists and password is correct
         if user is None or not check_password_hash(user.hash, password):
-            flash("invalid username and/or password", "warning")
-            return redirect(url_for('login'))
+            flash("invalid username and/or password", "error")
+            return render_template("login.html")
 
         # Remember which user has logged in
         session["user_id"] = user.id
