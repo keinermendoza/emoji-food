@@ -13,7 +13,7 @@ def reset_password_message(destiny, name, token):
     message.html =f''' <h2>Hello {name}</h2>
     <img src="https://api.memegen.link/images/jim/don't_worry_{name}_this_happens_all_the_time/Just_click_on_the_link_bellow_for_restart_your_password.png">
     <p>Click on the link bellow for restart your password</p>
-    <a href="{os.environ['HOSTING'] + url_for('reset_verified', token=token,_external=True)}">This link contains a token to reset your password</a>
+    <a href="{"https://emoji-food.herokuapp.com"+url_for('reset_verified', token=token,_external=True)}">This link contains a token to reset your password</a>
     '''
     return message
             
