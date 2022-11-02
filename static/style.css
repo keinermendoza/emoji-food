@@ -5,7 +5,6 @@
   --pad--color: #FFEEAF;
 } */
 
-
 button {
   padding: 1rem;
 }
@@ -13,7 +12,7 @@ p, a {
   color: var(--let--color, black); 
 }
 body {
-  background-color: var(--back--color, #E1FFEE);
+  background-color: var(--back--color,#FFEEAF);
   color: var(--let--color, black);
 }
 
@@ -21,6 +20,8 @@ body {
   background-color: var(--pad--color, #FFEEAF);
   border: solid var(--bord--color, #A5F1E9) 1rem;
 } */
+
+
 
 /* Un atributo que creare en la root del html (creo) con en js */
 [tema="sun"]{
@@ -38,6 +39,17 @@ body {
   --pad--color: #790252;
 }
 
+#switch-mode-display {
+  display: flex;
+  align-items: center;
+  min-width: 6rem;
+}
+.sun-and-moon {
+  font-size: 2rem;
+  padding: 0 0.6rem 0 0;
+  margin-bottom: 0.2rem;
+}
+
 /* FOR REGISTER PAGE */
 
 .Register-error {
@@ -46,13 +58,6 @@ body {
 
 /* pantallas grandes */
 @media (min-width: 900px) {
-  
-  .Register-error {   
-      position: relative;
-      top: -2rem;
-      left: calc(50vw + 8rem) ;
-      float:left;
-      
-  }
+
 }
 

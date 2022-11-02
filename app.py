@@ -6,14 +6,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 # helpers
-from my_tools import messenger, apology, login_required, usd, get_reset_token, verify_reset_token
+from my_tools import reset_password_message, welcome_message, login_required, get_reset_token, verify_reset_token
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from flask_mail import Mail, Message
 from werkzeug.security import check_password_hash, generate_password_hash
 
-s3 = S3Connection(os.environ['MAIL_DEFAULT_SENDER'], os.environ['MAIL_PASSWORD'], os.environ['MAIL_USERNAME'], os.environ['SECRET_KEY'])
+s3 = S3Connection(os.environ['MAIL_DEFAULT_SENDER'], os.environ['MAIL_PASSWORD'], os.environ['MAIL_USERNAME'], os.environ['SECRET_KEY'], os.environ['DATABASE'])
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ app.config["MAIL_USERNAME"] = os.environ['MAIL_USERNAME']
 mail = Mail(app)
 
 # Configure Postrge Heroku as database
-engine = create_engine(os.environ['DATABASE_URL'])
+engine = create_engine(os.environ['DATABASE'])
 db = scoped_session(sessionmaker(bind=engine))
 
 @app.after_request
@@ -55,26 +55,26 @@ def password_reset():
 
         # Check if user give an email
         if not email:
-            noemail = "Must give an email"
-            return render_template("send_reset_password.html", noemail=noemail)
+            flash("Must give an email", 'error')
+            return render_template("send_reset_password.html")
 
         # Check if email already exist in database
         user = db.execute("SELECT username, id FROM users WHERE email = :email", {"email":email}).fetchone()
         if not user:
-            noregister = "It's not register"
-            return render_template("send_reset_password.html", noregister=noregister, emailError=email)
+            flash("It's not register", 'error')
+            return render_template("send_reset_password.html")
         
-        # making a token for restart password, using my_tools
+        # making a token for restart password, using the user id and my_tools
         token = get_reset_token(user.id)
         
         # making and Mail object, whit a token inside, using my_tools
-        message = messenger(user.email, "restart-password", token)
+        message = reset_password_message(email, user.username, token)
         
         # sending email
         mail.send(message)
         
         # show message of success and redirect to login page
-        flash("Check on your Mail Box", "warning")
+        flash("Check on your Mail Box", 'message')
         return render_template("send_reset_password.html") 
 
     # Show the restart-password form
@@ -88,29 +88,32 @@ def password_reset():
 def reset_verified(token):
     
     user_id = verify_reset_token(token)
+    password = request.form.get("password")
+    confirmation = request.form.get("confirmation")
+
     if not user_id:
         flash("id no encontrado", "warning")
         return redirect(url_for('password_reset'))
     
     if request.method == "POST":
         # Ensure password was register
-        if not request.form.get("password"):
-            nopass = "must register a password"
-            return render_template("change_password.html", nopass=nopass, token=token)
+        if not password:
+            flash("must register a password", "warning")
+            return render_template("change_password.html", token=token)
 
         # Ensure confirm-password register
-        elif not request.form.get("confirmation"):
-            noconfirm = "must confirm your password"
-            return render_template("change_password.html", noconfirm=noconfirm, token=token)
+        elif not confirmation:
+            flash("must confirm your password", "warning")
+            return render_template("change_password.html", token=token)
 
         # Ensure password was submitted
-        elif request.form.get("password") != request.form.get("confirmation"):
-            nomatch = "confirm password not macht"
-            return render_template("change_password.html", nomatch=nomatch, token=token)
+        elif password != confirmation:
+            flash("confirm password not macht", "warning")
+            return render_template("change_password.html", token=token)
         
         # Storing data in database
-        password = generate_password_hash(request.form.get("password"))
-        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":password, "id":user_id})
+        hash = generate_password_hash(password)
+        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":user_id})
         db.commit()
 
         flash("Please check your email box, we'v send a link to restart your password", "message")
@@ -122,44 +125,50 @@ def reset_verified(token):
 @app.route("/change_password", methods=["GET", "POST"])
 @login_required
 def change_password():
+
+
     if request.method == "POST":
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
         old_password = request.form.get("old_password")
         
         # Ensure old_password was provide        
         if not old_password:
-            nooldpass = "must provide your active password"
-            return render_template("change_password.html", nooldpass=nooldpass)
+            flash("must provide your active password", "warning")
+            return render_template("change_password.html")
         
         # asking for active password
         check = db.execute("SELECT hash FROM users WHERE id = :id", {"id":session["user_id"]}).fetchone()
         if not check_password_hash(check.hash, old_password):
-            nocheck = "incorrect password"
-            return render_template("change_password.html", nocheck=nocheck)
+
+            flash("incorrect password", "warning")
+            return render_template("change_password.html")
 
         # Ensure password was register
-        elif not request.form.get("password"):
-            nopass = "must register a password"
-            return render_template("change_password.html", nopass=nopass)
+        elif not password:
+            flash("must register a password", "warning")
+            return render_template("change_password.html")
 
         # Ensure confirm-password register
-        elif not request.form.get("confirmation"):
-            noconfirm = "must confirm your password"
-            return render_template("change_password.html", noconfirm=noconfirm)
+        elif not confirmation:
+            flash("must confirm your password", "warning")
+            return render_template("change_password.html")
 
         # Ensure password was submitted
-        elif request.form.get("password") != request.form.get("confirmation"):
-            nomatch = "confirm password not macht"
-            return render_template("change_password.html", nomatch=nomatch)
+        elif password != confirmation:
+            flash("confirm password not macht", "warning")
+            return render_template("change_password.html")
         
         # Storing data in database
-        password = generate_password_hash(request.form.get("password"))
+        hash = generate_password_hash(password)
 
-        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":password, "id":session["user_id"]})
+        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":session["user_id"]})
         db.commit()
 
         flash("Please check your email box, we'v send a link to restart your password", "message")
         return redirect("/login")
 
+    # Show form
     return render_template("change_password.html")
 
 @app.route("/acount", methods=["GET", "POST"])
@@ -167,7 +176,6 @@ def acount():
     return render_template("acount.html")
 
 
-"""THIS IS AN REMAKE OF MY FINANCE PROJECT"""
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -178,19 +186,25 @@ def login():
     if request.method == "POST":
 
         # Ensure username was submitted
-        if not request.form.get("username"):
-            return apology("must provide username", 403)
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if not email:
+            flash("must provide an username", "warning")
+            return redirect(url_for('login'))
 
         # Ensure password was submitted
-        elif not request.form.get("password"):
-            return apology("must provide password", 403)
+        elif not password:
+            flash("must provide password", "warning")
+            return redirect(url_for('login'))
 
         # Query database for username
-        user = db.execute("SELECT * FROM users WHERE username = :username", {"username":request.form.get("username")}).fetchall()
-
+        user = db.execute("SELECT id, username, hash FROM users WHERE email = :email", {"email":email}).fetchone()
+        
         # Ensure username exists and password is correct
-        if user is None or not check_password_hash(user.hash, request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+        if user is None or not check_password_hash(user.hash, password):
+            flash("invalid username and/or password", "warning")
+            return redirect(url_for('login'))
 
         # Remember which user has logged in
         session["user_id"] = user.id
@@ -218,51 +232,54 @@ def register():
     """Register user"""
     if request.method == "POST":
 
-        # Ensure username was register
-        if not request.form.get("username"):
-            noname = "must register an username"
-            return render_template("register.html", noname=noname)
+        username = request.form.get("username")
+        password = request.form.get("password")
+        email = request.form.get("email")
 
         # Ensure email was register
-        elif not request.form.get("email"):
-            noemail = "must register an email"
-            return render_template("register.html", noemail=noemail)
+        if not email:
+            flash("must register an email", 'error')
+            return render_template("register.html")
+
+        # Ensure username was register
+        elif not username:
+            flash("must register an username", 'error')
+            return render_template("register.html")
 
         # Ensure password was register
-        elif not request.form.get("password"):
-            nopass = "must register a password"
-            return render_template("register.html", nopass=nopass)
+        elif not password:
+            flash("must register a password", 'error')
+            return render_template("register.html")
 
         # Ensure confirm-password register
         elif not request.form.get("confirmation"):
-            noconfirm = "must confirm your password"
-            return render_template("register.html", noconfirm=noconfirm)
+            flash("must confirm your password", 'error')
+            return render_template("register.html")
 
         # Ensure password was submitted
-        elif request.form.get("password") != request.form.get("confirmation"):
-            nomatch = "confirm password not macht"
-            return render_template("register.html", nomatch=nomatch)
-
-        # Ensure username was not exist in dataBase
-        username = request.form.get("username")
-        repeat_name = db.execute("SELECT username FROM users WHERE username = :username", {"username":username}).fetchone()
-
-        if repeat_name:
-            return render_template("register.html", username=username, repeat_name=repeat_name)
+        elif password != request.form.get("confirmation"):            
+            flash("confirm password not macht", 'error')
+            return render_template("register.html")
 
         # Ensure email was not exist in dataBase
-        email = request.form.get("email")
-        repeat_email = db.execute("SELECT email FROM users WHERE email = :email", {"email":email}).fetchone()
+        repeated_email = db.execute("SELECT email FROM users WHERE email = :email", {"email":email}).fetchone()
 
-        if repeat_email:
-            return render_template("register.html", email=email, repeat_email=repeat_email)
+        if repeated_email:
+            flash("This email already exist", 'error')
+            return render_template("register.html")
 
         # Storing data in database
-        password = generate_password_hash(request.form.get("password"))
-        db.execute("INSERT INTO users (username, email, hash) VALUES (:username,:email,:hash)", {"username":username, "email":email, "password":password})
+        password = generate_password_hash(password)
+        db.execute("INSERT INTO users (username, email, hash) VALUES (:username,:email,:password)", {"username":username, "email":email, "password":password})
         db.commit()
+
+        # seending welcome email
+        message = welcome_message(email, username)
+        mail.send(message)
+
         #redirect to login page
-        return redirect("/login")
+        flash("Now you are register", 'message')
+        return render_template("register.html")
 
     # displaying register form
     return render_template("register.html")

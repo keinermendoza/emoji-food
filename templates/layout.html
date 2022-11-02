@@ -26,6 +26,13 @@
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <span id="switch-mode-display">
+                        <span class="sun-and-moon">&#127774</span>
+                        <div class="form-check form-switch" id="mode">           
+                            <input class="form-check-input" type="checkbox" role="switch" name="modo_nocturno">   
+                        </div>
+                        <span class="sun-and-moon">&#127771</span>
+                </span>
                 <div class="collapse navbar-collapse" id="navbar">
                     {% if session["user_id"] %}
                         <ul class="navbar-nav me-auto mt-2">
@@ -33,37 +40,15 @@
                             <li class="nav-item"><a class="nav-link" href="#">Building</a></li>
                             <li class="nav-item"><a value="1" name="sell" class="nav-link" href="#">Building</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Building</a></li>
-                            <li>
-
-                                <form action="/">
-                                    <label for="" id="mode">
-                                        <input  type="checkbox" name="modo_nocturno" id="">
-                                    </label>
-                                    <button type="submit">Aqui</button>
-                                </form>
-
-                            </li>
                         </ul>
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                         </ul>
                     {% else %}
-                        <ul class="navbar-nav ms-auto mt-2">
+                        <ul class="navbar-nav ms-auto mt-4">
+                            
                             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                             <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                            <li>
-
-                                <form action="/">
-                                    <label for="" id="mode">
-                                        <input  type="checkbox" 
-                                            {% if session["modo-nocturno"] == "noche" %}
-                                                checked="on"
-                                            {% endif %} 
-                                            name="modo_nocturno" id="">
-                                    </label>
-                                </form>
-
-                            </li>
                         </ul>
                     {% endif %}
                 </div>

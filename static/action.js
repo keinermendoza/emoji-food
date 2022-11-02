@@ -3,7 +3,12 @@
 document.documentElement.setAttribute('tema', sessionStorage.mode);
 
 window.onload = function() 
-{
+{   
+    // Si el tema activo es 'moon' marcar chexkbox
+    if (document.documentElement.getAttribute('tema') == 'moon') {
+        document.querySelector('#mode input[type="checkbox"]').checked = true;
+    }
+
     // Selecciono Box de Mode y agrego lamda
     document.querySelector('#mode input[type="checkbox"]').addEventListener('input', function(e){
         // Si activan moon-mode establecer atributo en root, activara css

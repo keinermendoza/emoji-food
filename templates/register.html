@@ -7,39 +7,18 @@
 {% block main %}
     <form action="/register" method="post">
             <div class="mb-3">
-
+                
+                <!-- requerid pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" -->
                 <!-- pattern copied from https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html -->
-                <input autocomplete="off" requerid pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" 
+                <input autocomplete="off"  
                 autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text" 
                  title="Must register a valid email">
 
-                {% if repeat_email %}
-                <span class="Register-error">{{email}}</span>
-                <br>
-                <span class="Register-error"> already exist</span>
-                {% endif %}
-
-                {% if noemail %}
-                <span class="Register-error">{{noemail}}</span>
-                {% endif %}
-
             </div>
-
-        
 
             <div class="mb-3">
                 <input autocomplete="off" class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username"
                  type="text"  title="Must register an username">
-
-                {% if repeat_name %}
-                <span class="Register-error">{{username}}</span>
-                <br>
-                <span class="Register-error"> already exist</span>
-                {% endif %}
-
-                {% if noname %}
-                <span class="Register-error">{{noname}}</span>
-                {% endif %}
 
             </div>
 
@@ -51,23 +30,11 @@
 
             <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
 
-
-            {% if nopass %}
-            <span class="Register-error">{{nopass}}</span>
-            {% endif %}
         </div>
 
         <div class="mb-3">
                 <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" 
                 type="password" title="Must confirm your password">
-
-                {% if noconfirm %}
-                <span class="Register-error">{{noconfirm}}</span>
-                {% endif %}
-                {% if nomatch %}
-                <span class="Register-error">{{nomatch}}</span>
-                {% endif %}
-                <span id="password-state-match"></span>
         </div>
 
         <div>
