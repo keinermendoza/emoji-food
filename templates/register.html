@@ -27,7 +27,8 @@
             <!-- pattern copied from http://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=psw -->
             <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"  
              title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
-
+            <input type="checkbox" name="" id="check">
+            <span value="cerrado" id="visibility">&#128584</span>
             <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
 
         </div>
@@ -38,6 +39,7 @@
         </div>
 
         <div>
+            <p id="password-state-match"></p>
             <p>Password must have from 8 to 16 characters, at least one upper,
                  one lower, one number and one symbol.</p>
         </div>
@@ -68,8 +70,24 @@
             }
         })
     })
-
-    
+    var password = document.getElementById('password');
+    var confirmation = document.getElementById('confirmation');
+    var visibility = document.getElementById('visibility');  
+    check = document.getElementById('check');
+    visibility.addEventListener('click', function(){
+        
+        if (visibility.innerHTML = ) {
+            visibility.innerHTML = "&#128064";
+            document.getElementById('password').type = "text";    
+            document.getElementById('check').checked=true;
+        } 
+        else
+        {
+            visibility.innerHTML = "&#128584";
+            document.getElementById('password').type = "password";
+            document.getElementById('check').checked=false;
+        }
+    });
 </script>
 
 {% endblock %}
