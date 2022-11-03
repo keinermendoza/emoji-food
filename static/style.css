@@ -49,7 +49,9 @@ body {
   padding: 0 0.6rem 0 0;
   margin-bottom: 0.2rem;
 }
-
+.password-emoji {
+  font-size: 2rem;
+}
 /* FOR REGISTER PAGE */
 
 .Register-error {

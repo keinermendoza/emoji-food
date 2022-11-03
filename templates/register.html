@@ -28,7 +28,7 @@
             <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"  
              title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
             <input type="checkbox" name="" id="check">
-            <span value="cerrado" id="visibility">&#128584</span>
+            <span class="password-emoji" value="cerrado" id="visibility">&#128584</span>
             <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
 
         </div>
@@ -79,13 +79,11 @@
         if (visibility.innerHTML == '🙈') {
             visibility.innerHTML = "&#128064";
             document.getElementById('password').type = "text";    
-            document.getElementById('check').checked=true;
         } 
         else
         {
             visibility.innerHTML = "&#128584";
             document.getElementById('password').type = "password";
-            document.getElementById('check').checked=false;
         }
     });
 </script>
