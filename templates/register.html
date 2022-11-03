@@ -28,7 +28,7 @@
             <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"  
              title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
             
-            <span translate="no" class="password-emoji" id="visibility">🙈</span>
+            <span translate="no" id="password-emoji" class="password-emoji" >🙈</span>
             <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
 
         </div>
@@ -36,6 +36,7 @@
         <div class="mb-3">
                 <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" 
                 type="password" title="Must confirm your password">
+                <span translate="no" id="confirmation-emoji" class="password-emoji" id="visibility">🙈</span>
         </div>
 
         <div>
@@ -50,42 +51,50 @@
 {% block bottom %}
 <script>
     
-    var match = document.getElementById('password-state-match');
+    // var match = document.getElementById('password-state-match');
     
-    // the idea of make a list comes from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
-    // the array sintaxis too. 
-    [document.getElementById('password'), document.getElementById("confirmation")].forEach(item => {
-        item.addEventListener('input', event => {
-            password = document.getElementById('password').value;
-            confirmation = document.getElementById("confirmation").value;
+    // // the idea of make a list comes from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
+    // // the array sintaxis too. 
+    // [document.getElementById('password'), document.getElementById("confirmation")].forEach(item => {
+    //     item.addEventListener('input', event => {
+    //         password = document.getElementById('password').value;
+    //         confirmation = document.getElementById("confirmation").value;
 
-            if (password == "" || confirmation == "") {
-                match.innerHTML = "";
-            }
-            else if (password == confirmation) {
-                match.innerHTML = "Password match";
-            }
-            else {
-                match.innerHTML = "Password not match yet";
-            }
-        })
-    })
-    var password = document.getElementById('password');
-    var confirmation = document.getElementById('confirmation');
-    var visibility = document.getElementById('visibility');  
-    check = document.getElementById('check');
-    visibility.addEventListener('click', function(){
+    //         if (password == "" || confirmation == "") {
+    //             match.innerHTML = "";
+    //         }
+    //         else if (password == confirmation) {
+    //             match.innerHTML = "Password match";
+    //         }
+    //         else {
+    //             match.innerHTML = "Password not match yet";
+    //         }
+    //     })
+    // })
+    
+    // document.getElementById('password-emoji').addEventListener('click', function() {
         
-        if (visibility.innerHTML == '🙈') {
-            visibility.innerHTML = '👀';
-            document.getElementById('password').type = "text";    
-        } 
-        else
-        {
-            visibility.innerHTML = '🙈';
-            document.getElementById('password').type = "password";
-        }
-    });
+    //     if (this.innerHTML == '🙈') {
+    //         this.innerHTML = '👀';
+    //         document.getElementById('password').type = "text";    
+    //     } 
+    //     else
+    //     {
+    //         this.innerHTML = '🙈';
+    //         document.getElementById('password').type = "password";
+    //     }
+    // });
+    // document.getElementById('confirmation-emoji').addEventListener('click', function() {
+    //     if (this.innerHTML == '🙈') {
+    //         this.innerHTML = '👀';
+    //         document.getElementById('confirmation').type = "text";    
+    //     } 
+    //     else
+    //     {
+    //         this.innerHTML = '🙈';
+    //         document.getElementById('confirmation').type = "password";
+    //     }
+    // });
 </script>
 
 {% endblock %}

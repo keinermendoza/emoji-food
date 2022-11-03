@@ -51,11 +51,18 @@ body {
 }
 .password-emoji {
   font-size: 2rem;
+  position: absolute;
+  left: calc(50% + 8rem);
+  margin-top: -2.75rem;
+}
+.password-emoji:hover {
+  cursor:pointer;
 }
 /* FOR REGISTER PAGE */
 
-.Register-error {
-  color:red;
+#password-state-match {
+  margin: 2rem;
+  font-size: 1.2rem;
 }   
 
 /* pantallas grandes */
