@@ -292,5 +292,28 @@ def index():
     # displaying index page 
     return render_template("index.html")
 
+@app.route("/food-table", methods=["GET", "POST"])
+def foodTable():
+    if request.method == "GET":
+        rows = db.execute("SELECT * FROM emojis").fetchall()   
+        return render_template("food-table.html", imgs=rows)
+
+@app.route("/search")
+def search():
+    emoji_input = request.args.get("q")
+    # Uso hex(ord()) porque guarde los emojis con apariencia hexadecimal en la base de datos
+    # Luego lo convierto en str para poder remplazar el "0" que ocupa el primer caracter 
+    # un MILLON DE GRACIAS A https://www.otaviomiranda.com.br/2020/normalizacao-unicode-em-python/
+    
+    if emoji_input:
+        emoji_html = str(hex(ord(emoji_input))).replace("0x", "x")
+        print(emoji_html)
+
+        emoji_data = db.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html}) 
+        return render_template("search.html", emoji_data=emoji_data)
+
+    return render_template("search.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
