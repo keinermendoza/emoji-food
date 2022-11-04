@@ -1,0 +1,16 @@
+{% if emoji_data %}
+        {% for data in emoji_data %}
+
+            
+                <h2>{{data.name}} <span>&#{{data.hexa}} <button id="button-item-selected-like" class="btn btn-primary" value="{{data['id']}}">I like it &#128077</button></span> <h2>
+
+                <div class="item-selected">
+                        <div class="container-img-serched">
+                                <img class="img-serched" src="{{data.img}}" alt="{{data.name}}">
+                        </div>
+                        <div class="txt-serched">
+                                <p>{{data.description}}</p>
+                        </div>
+                </div>
+        {% endfor %}
+{% endif %}
