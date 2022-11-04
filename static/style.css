@@ -65,6 +65,13 @@ body {
   font-size: 1.2rem;
 }   
 
+.register-cont {
+  margin: 2rem;
+  padding: 1 rem;
+  border-radius: 0.5rem;
+  background-color: var(--pad--color, #7FBCD2);
+}
+
 /* pantallas grandes */
 @media (min-width: 900px) {
 
