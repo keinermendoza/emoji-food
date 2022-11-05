@@ -1,3 +1,11 @@
+/* BOOTSTRAP CLASS */
+.input-group {
+  max-width: 16rem;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+
 :root {
   --back--color: #FFEEAF;
   --let--color: rgb(0, 0, 0);
@@ -50,10 +58,10 @@ body {
   margin-bottom: 0.2rem;
 }
 .password-emoji {
-  font-size: 2rem;
-  position: absolute;
+  font-size: 1.2rem;
+  /* position: absolute;
   left: calc(50% + 8rem);
-  margin-top: -2.75rem;
+  margin-top: -2.75rem; */
 }
 .password-emoji:hover {
   cursor:pointer;

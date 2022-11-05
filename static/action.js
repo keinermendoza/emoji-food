@@ -49,7 +49,19 @@ window.onload = function()
             document.getElementById('confirmation').type = "password";
         }
     });
-
+    document.getElementById('old_password-emoji').addEventListener('click', function() {
+        if (this.innerHTML == '🙈') {
+            this.innerHTML = '👀';
+            document.getElementById('old_password').type = "text";    
+        } 
+        else
+        {
+            this.innerHTML = '🙈';
+            document.getElementById('old_password').type = "password";
+        }
+    });
+    
+    
     // checking if password an confirmation-password match on-live
     // I toke this function from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
     var match = document.getElementById('password-state-match');

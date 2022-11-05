@@ -6,19 +6,25 @@
 
 {% block main %}
     <form action="/login" method="post">
-        <div class="mb-3">
+        
+        
+
+        <div class="input-group mb-3 mx-auto w-auto">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text">
         </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
-            <span translate="no" id="password-emoji" class="password-emoji" >🙈</span>
+        <div class="input-group mb-3 mx-auto w-auto">
+            <input class="form-control" id="password" name="password" placeholder="Password" type="password" aria-describedby="password-emoji">
+            <span class="input-group-text password-emoji" translate="no" id="password-emoji">🙈</span>
         </div>
+        
         <button class="btn btn-primary" type="submit">Log In</button><br>
         <a href="/password_reset"><span>Do you forget your password?</span><br><span>Click here!</span></a>
     </form>
         <br>
+    <div class="register-cont">
         <span>You can register here</span>
         <form action="/register" method="get">
             <button class="btn btn-primary" type="submit">Register</button>
         </form>
+    </div>
 {% endblock %}

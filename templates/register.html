@@ -6,37 +6,37 @@
 
 {% block main %}
     <form action="/register" method="post">
-            <div class="mb-3">
+            <div class="input-group mb-3 mx-auto w-auto">
                 
                 <!-- requerid pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" -->
                 <!-- pattern copied from https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html -->
                 <input autocomplete="off"  
-                autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text" 
+                autofocus class="form-control" id="email" name="email" placeholder="Email" type="text" 
                  title="Must register a valid email">
 
             </div>
 
-            <div class="mb-3">
-                <input autocomplete="off" class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username"
+            <div class="input-group mb-3 mx-auto w-auto">
+                <input autocomplete="off" class="form-control" id="username" name="username" placeholder="Username"
                  type="text"  title="Must register an username">
 
             </div>
 
-        <div class="mb-3">
+        <div class="input-group mb-3 mx-auto w-auto">
 
             <!-- pattern copied from http://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=psw -->
-            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"  
-             title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol">
+            <input class="form-control" id="password" name="password" placeholder="Password" type="password"  
+             title="From 8 to 16 characters, at least one upper, one lower, one number and one symbol" aria-describedby="password-emoji">
             
-            <span translate="no" id="password-emoji" class="password-emoji" >🙈</span>
+            <span translate="no" id="password-emoji" class="input-group-text password-emoji">🙈</span>
             <!-- pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" -->
 
         </div>
 
-        <div class="mb-3">
-                <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" 
-                type="password" title="Must confirm your password">
-                <span translate="no" id="confirmation-emoji" class="password-emoji" id="visibility">🙈</span>
+        <div class="input-group mb-3 mx-auto w-auto">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" 
+                type="password" title="Must confirm your password" aria-describedby="confirmation-emoji">
+            <span translate="no" id="confirmation-emoji" class="input-group-text password-emoji" id="visibility">🙈</span>
         </div>
 
         <div>
