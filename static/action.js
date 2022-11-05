@@ -82,7 +82,40 @@ window.onload = function()
             }
         })
     })
+
+    // For search emojis
+
+    // Moviendo la pantalla "scrolling" hasta el container
+    function afterSelected() {
+        window.scrollTo(0, document.body.scrollHeight);
+        
+        // if(window.location.pathname == "/acount") {
+        //     document.getElementById('form-like-and-delete').setAttribute('action', '/acount');
+        //     document.getElementById('form-like-and-delete').setAttribute('method', 'post');
+        //     document.getElementById('button-item-selected-like').innerHTML = "Delete";
+        // }
+    }
     
+    // searching from input-box
+    document.querySelector('#search-button').addEventListener('click', async function() {
+        var response = await fetch('/search?q=' + document.querySelector('#input-emoji').value);
+        var shows = await response.text();
+        document.getElementById('container-to-item-selected').innerHTML = shows;
+
+        afterSelected();
+    });
+
+    // searching from emojis buttons
+    var emojis = document.getElementsByClassName('imagen');
+        for (i = 0; i < emojis.length; i++) {
+            emojis[i].addEventListener('click', async function() {
+                var response = await fetch('/search?q=' + this.innerHTML);
+                var shows = await response.text();
+                document.getElementById('container-to-item-selected').innerHTML = shows;
+
+                afterSelected();
+            });
+        }
 
 
 }

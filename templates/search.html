@@ -1,8 +1,12 @@
 {% if emoji_data %}
         {% for data in emoji_data %}
+                {% if favorites %}
 
-            
-                <h2>{{data.name}} <span>&#{{data.hexa}} <button id="button-item-selected-like" class="btn btn-primary" value="{{data['id']}}">I like it &#128077</button></span> <h2>
+                <h1>Logre diferenciar!</h1>
+                {% endif %}
+                <h2>{{data.name}} <span>&#{{data.hexa}} <form id="form-like-and-delete" method="get" action="/like_it">
+                        <button name="emoji_id" id="button-item-selected-like" class="btn btn-primary" value="{{data['id']}}">I like it &#128077</button>
+                        </form></span> <h2>
 
                 <div class="item-selected">
                         <div class="container-img-serched">

@@ -171,10 +171,6 @@ def change_password():
     # Show form
     return render_template("change_password.html")
 
-@app.route("/acount", methods=["GET", "POST"])
-def acount():
-    return render_template("acount.html")
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -292,11 +288,11 @@ def index():
     # displaying index page 
     return render_template("index.html")
 
-@app.route("/food-table", methods=["GET", "POST"])
+@app.route("/food_table", methods=["GET", "POST"])
 def foodTable():
     if request.method == "GET":
         rows = db.execute("SELECT * FROM emojis").fetchall()   
-        return render_template("food-table.html", imgs=rows)
+        return render_template("food_table.html", imgs=rows)
 
 @app.route("/search")
 def search():
@@ -304,16 +300,64 @@ def search():
     # Uso hex(ord()) porque guarde los emojis con apariencia hexadecimal en la base de datos
     # Luego lo convierto en str para poder remplazar el "0" que ocupa el primer caracter 
     # un MILLON DE GRACIAS A https://www.otaviomiranda.com.br/2020/normalizacao-unicode-em-python/
-    
+  
     if emoji_input:
         emoji_html = str(hex(ord(emoji_input))).replace("0x", "x")
-        print(emoji_html)
 
-        emoji_data = db.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html}) 
+        emoji_data = db.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html})
+                
         return render_template("search.html", emoji_data=emoji_data)
 
     return render_template("search.html")
 
+@app.route("/like_it")
+def likeIt():
+    # take the emoj_id from the value of the like buttom
+    emoji_id = request.args.get("emoji_id")
+
+    # if it is not the emoji_id break return message error 
+    if not emoji_id:
+        flash("Something is break, Please contact to Web Master.")
+        return redirect(url_for("foodTable"))
+    
+    # check if this preference already exist for this user
+    emoji = db.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id}).fetchone()
+    
+    # store the "like"
+    if not emoji:
+        db.execute("INSERT INTO preferences (user_id, emoji_id) VALUES (:user_id, :emoji_id)", {"user_id":session["user_id"], "emoji_id":emoji_id})
+        db.commit()    
+    # return a succes message
+    flash("Emoji saved in favorites.")
+    return redirect(url_for("foodTable"))
+
+
+@app.route("/acount", methods=["GET", "POST"])
+def acount():
+    # this method is for delete a particular item from preferences
+    if request.method == "POST":
+        emoji_id = request.form.get("emoji_id")
+
+        # if it is not the emoji_id break return message error 
+        if not emoji_id:
+            flash("Something is break, Please contact to Web Master.")
+            return redirect(url_for("foodTable"))
+        
+        # deleting the emoji from the preferences of the user.
+        db.execute("DELETE FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id})
+        db.commit()
+
+
+    # verifying that exist records for this user
+    emoji_list = db.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id ", {"user_id":session["user_id"]}).fetchone()
+    
+    # if aren't recording returning a simple page
+    if not emoji_list:
+        return render_template("acount.html")
+    
+    # if are recordings select and return in a list
+    user_favorites = db.execute("SELECT * FROM emojis WHERE id IN (SELECT emoji_id FROM preferences WHERE user_id = :user_id)", {"user_id":session["user_id"]}).fetchall()
+    return render_template("acount.html", user_favorites=user_favorites)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
