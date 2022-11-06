@@ -8,13 +8,13 @@ window.onload = function()
     if (document.documentElement.getAttribute('tema') == 'moon') {
         document.querySelector('#mode input[type="checkbox"]').checked = true;
     }
-
+    
     // Selecciono Box de Mode y agrego lamda
     document.querySelector('#mode input[type="checkbox"]').addEventListener('input', function(e){
         // Si activan moon-mode establecer atributo en root, activara css
         if(e.target.checked) {
             document.documentElement.setAttribute('tema', 'moon');
-
+            
             // guarado tema de forma local en variable recien creada "mode"
             sessionStorage.mode = document.documentElement.getAttribute('tema');
         } 
@@ -24,6 +24,26 @@ window.onload = function()
         }
     });
     
+    // checking if password an confirmation-password match on-live
+    // I toke this function from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
+    var match = document.getElementById('password-state-match');
+    
+    [document.getElementById('password'), document.getElementById("confirmation")].forEach(item => {
+        item.addEventListener('input', event => {
+            password = document.getElementById('password').value;
+            confirmation = document.getElementById("confirmation").value;
+    
+            if (password == "" || confirmation == "") {
+                match.innerHTML = "";
+            }
+            else if (password == confirmation) {
+                match.innerHTML = "Password match &#128077";
+            }
+            else {
+                match.innerHTML = "Password not match yet &#129300";
+            }
+        })
+    });
     // Using emojis for show and hide the password
 
     document.getElementById('password-emoji').addEventListener('click', function() {
@@ -62,60 +82,7 @@ window.onload = function()
     });
     
     
-    // checking if password an confirmation-password match on-live
-    // I toke this function from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
-    var match = document.getElementById('password-state-match');
 
-    [document.getElementById('password'), document.getElementById("confirmation")].forEach(item => {
-        item.addEventListener('input', event => {
-            password = document.getElementById('password').value;
-            confirmation = document.getElementById("confirmation").value;
-
-            if (password == "" || confirmation == "") {
-                match.innerHTML = "";
-            }
-            else if (password == confirmation) {
-                match.innerHTML = "Password match &#128077";
-            }
-            else {
-                match.innerHTML = "Password not match yet &#129300";
-            }
-        })
-    })
-
-    // For search emojis
-
-    // Moviendo la pantalla "scrolling" hasta el container
-    function afterSelected() {
-        window.scrollTo(0, document.body.scrollHeight);
-        
-        // if(window.location.pathname == "/acount") {
-        //     document.getElementById('form-like-and-delete').setAttribute('action', '/acount');
-        //     document.getElementById('form-like-and-delete').setAttribute('method', 'post');
-        //     document.getElementById('button-item-selected-like').innerHTML = "Delete";
-        // }
-    }
-    
-    // searching from input-box
-    document.querySelector('#search-button').addEventListener('click', async function() {
-        var response = await fetch('/search?q=' + document.querySelector('#input-emoji').value);
-        var shows = await response.text();
-        document.getElementById('container-to-item-selected').innerHTML = shows;
-
-        afterSelected();
-    });
-
-    // searching from emojis buttons
-    var emojis = document.getElementsByClassName('imagen');
-        for (i = 0; i < emojis.length; i++) {
-            emojis[i].addEventListener('click', async function() {
-                var response = await fetch('/search?q=' + this.innerHTML);
-                var shows = await response.text();
-                document.getElementById('container-to-item-selected').innerHTML = shows;
-
-                afterSelected();
-            });
-        }
 
 
 }

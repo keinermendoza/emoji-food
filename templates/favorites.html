@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<table>
+    <thead>
+      <tr>
+        <th>Emoji</th>
+        <th>Likes</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for emoji in favorite %}
+      <tr>
+        <td translate="no">&#{{emoji.hexa}}</td>
+        <td>{{emoji.vote}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+{% endblock %}

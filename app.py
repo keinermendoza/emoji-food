@@ -1,3 +1,4 @@
+# enviorment variables
 from boto.s3.connection import S3Connection
 import os
 
@@ -5,9 +6,10 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-# helpers
+# "own" functions
 from my_tools import reset_password_message, welcome_message, login_required, get_reset_token, verify_reset_token
 
+# flask 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from flask_mail import Mail, Message
@@ -49,7 +51,7 @@ def after_request(response):
 
 @app.route("/password_reset", methods=["GET", "POST"])
 def password_reset():
-
+    """Manage the password forgive link of "/login" route"""
     if request.method == "POST":
         email = request.form.get('email')
 
@@ -81,12 +83,14 @@ def password_reset():
     return render_template("send_reset_password.html")
 
 
-# I toke the idea for this from https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968 
-# and specially from https://www.youtube.com/watch?v=zYWpEJAHvaI
-
 @app.route('/password_reset_verified/<token>', methods=['GET', 'POST'])
 def reset_verified(token):
+    """Verify the token sended on "/password_reset"""
+
+    # I toke the idea for this from https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968 
+    # and specially from https://www.youtube.com/watch?v=zYWpEJAHvaI
     
+    # creating variables for short the lines
     user_id = verify_reset_token(token)
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
@@ -125,9 +129,11 @@ def reset_verified(token):
 @app.route("/change_password", methods=["GET", "POST"])
 @login_required
 def change_password():
-
+    """Manage the change password of "/acount" route."""
 
     if request.method == "POST":
+
+        # creating variables for short the lines
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
         old_password = request.form.get("old_password")
@@ -165,7 +171,8 @@ def change_password():
         db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":session["user_id"]})
         db.commit()
 
-        flash("Please check your email box, we'v send a link to restart your password", "message")
+        # Redirect to login
+        flash("Please check your email box, we'v send a link to restart your password")
         return redirect("/login")
 
     # Show form
@@ -174,9 +181,9 @@ def change_password():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
+    """For login"""
     # Forget any user_id
-    session.clear()
+    # session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -209,8 +216,7 @@ def login():
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
+    return render_template("login.html")
 
 
 @app.route("/logout")
@@ -274,8 +280,8 @@ def register():
         mail.send(message)
 
         #redirect to login page
-        flash("Now you are register", 'message')
-        return render_template("register.html")
+        flash("Now you are register, you can login. We have send an welcome message to your email")
+        return redirect(url_for("login"))
 
     # displaying register form
     return render_template("register.html")
@@ -289,29 +295,38 @@ def index():
     return render_template("index.html")
 
 @app.route("/food_table", methods=["GET", "POST"])
+@login_required
 def foodTable():
+    """DISPLAY TWO WAYS FOR SEARCH EMOJI-FOODS"""
+
     if request.method == "GET":
         rows = db.execute("SELECT * FROM emojis").fetchall()   
         return render_template("food_table.html", imgs=rows)
 
 @app.route("/search")
+@login_required
 def search():
+    """TAKES THE EMOJI_ID AND USES IT TO RETURN ALL IT'S DATA IN AN ASYNC PROCESS"""
+
     emoji_input = request.args.get("q")
-    # Uso hex(ord()) porque guarde los emojis con apariencia hexadecimal en la base de datos
-    # Luego lo convierto en str para poder remplazar el "0" que ocupa el primer caracter 
-    # un MILLON DE GRACIAS A https://www.otaviomiranda.com.br/2020/normalizacao-unicode-em-python/
-  
+    
+    # Uses (ord()) because I recorded the emojis whit look hexadecimal on the database
+    # Then i convert to str for replace the "0" in the "first character" 
+    # I learn about this in https://www.otaviomiranda.com.br/2020/normalizacao-unicode-em-python/
+
     if emoji_input:
         emoji_html = str(hex(ord(emoji_input))).replace("0x", "x")
-
-        emoji_data = db.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html})
-                
+        emoji_data = db.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html})         
         return render_template("search.html", emoji_data=emoji_data)
-
+    
+    # if the input is invalid also return the serach.html empty 
     return render_template("search.html")
 
 @app.route("/like_it")
+@login_required
 def likeIt():
+    """RECORD THE "LIKES" ON DATABASE"""
+
     # take the emoj_id from the value of the like buttom
     emoji_id = request.args.get("emoji_id")
 
@@ -333,6 +348,7 @@ def likeIt():
 
 
 @app.route("/acount", methods=["GET", "POST"])
+@login_required
 def acount():
     # this method is for delete a particular item from preferences
     if request.method == "POST":
@@ -358,6 +374,13 @@ def acount():
     # if are recordings select and return in a list
     user_favorites = db.execute("SELECT * FROM emojis WHERE id IN (SELECT emoji_id FROM preferences WHERE user_id = :user_id)", {"user_id":session["user_id"]}).fetchall()
     return render_template("acount.html", user_favorites=user_favorites)
+
+@app.route("/favoties")
+@login_required
+def favorites():
+    """Show the 5 most popular emojis"""
+    favorite = db.execute("SELECT hexa, COUNT(emoji_id) AS vote FROM emojis INNER JOIN preferences ON emojis.id = preferences.emoji_id GROUP BY emojis.hexa ORDER BY COUNT(emoji_id) DESC LIMIT 5").fetchall()
+    return render_template("favorites.html", favorite=favorite)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
