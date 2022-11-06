@@ -189,7 +189,7 @@ def login():
     if request.method == "POST":
 
         # Ensure username was submitted
-        email = request.form.get("email")
+        email = request.form.get("email").lower()
         password = request.form.get("password")
 
         if not email:
@@ -234,9 +234,9 @@ def register():
     """Register user"""
     if request.method == "POST":
 
-        username = request.form.get("username")
+        username = request.form.get("username").title()
         password = request.form.get("password")
-        email = request.form.get("email")
+        email = request.form.get("email").lower()
 
         # Ensure email was register
         if not email:

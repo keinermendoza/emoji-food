@@ -5,52 +5,15 @@
     <h2>This are your favorites</h2>
     <div class="container-imagenes">
         {% for emoji in user_favorites %}
-
             
-            <button class="imagen" translate="no" value="&#{{emoji.hexa}}">&#{{emoji.hexa}}</button>    
-            
-        
-            {% endfor %}
+            <button class="imagen" translate="no" value="&#{{emoji.hexa}}">&#{{emoji.hexa}}</button>                
+        {% endfor %}
     </div>
     {% endif %}
 
     <div id="container-to-item-selected"></div>
 
-        <form action="/change_password">
-            <button type="submit">Go to Change your password</button>
-        </form>
-{% endblock %}
-
-{% block bottom %}
-
-        <script>
-
-            // Moviendo la pantalla "scrolling" hasta el container
-            function afterSelected() {
-                window.scrollTo(0, document.body.scrollHeight);
-                
-                
-                document.getElementById('button-item-selected-like').innerHTML = "Delete";
-                document.getElementById('form-like-and-delete').setAttribute('method', 'post');
-                document.getElementById('form-like-and-delete').setAttribute('action', '/acount');
-                
-            }
-            
-
-            // searching from emojis buttons
-            const emojis = document.getElementsByClassName('imagen');
-                for (i = 0; i < emojis.length; i++) {
-                    emojis[i].addEventListener('click', async function() {
-                        let response = await fetch('/search?q=' + this.innerHTML);
-                        let shows = await response.text();
-                        document.getElementById('container-to-item-selected').innerHTML = shows;
-
-                        afterSelected()
-                    });
-                }
-         
-            
-    
-        </script>
-
+    <form action="/change_password">
+        <button type="submit">Go to Change your password</button>
+    </form>
 {% endblock %}
