@@ -328,7 +328,7 @@ def likeIt():
         db.execute("INSERT INTO preferences (user_id, emoji_id) VALUES (:user_id, :emoji_id)", {"user_id":session["user_id"], "emoji_id":emoji_id})
         db.commit()    
     # return a succes message
-    flash("Emoji saved in favorites.")
+    flash("Emoji store as favorite in ""My Acount"".")
     return redirect(url_for("foodTable"))
 
 
