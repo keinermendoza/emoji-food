@@ -182,9 +182,9 @@ def change_password():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """For login"""
-    # Forget any user_id
-    # session.clear()
-
+    # For secure that user cannot login two different session
+    if "user_id" in session:
+        return redirect("/logout")
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
@@ -375,7 +375,7 @@ def acount():
     user_favorites = db.execute("SELECT * FROM emojis WHERE id IN (SELECT emoji_id FROM preferences WHERE user_id = :user_id)", {"user_id":session["user_id"]}).fetchall()
     return render_template("acount.html", user_favorites=user_favorites)
 
-@app.route("/favoties")
+@app.route("/favorites")
 @login_required
 def favorites():
     """Show the 5 most popular emojis"""

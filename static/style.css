@@ -149,6 +149,9 @@ body {
   .container-img-serched {
       width: 50%;
   }
+  .container-table {
+    max-width: 50%;
+  }
 }
 
 
@@ -160,5 +163,8 @@ body {
   }
   .container-img-serched {
       width: 100%;
+  }
+  .container-table {
+    max-width: 90%;
   }
 }

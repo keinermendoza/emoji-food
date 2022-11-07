@@ -1,19 +1,30 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<table>
-    <thead>
+<div class="container-table">
+  <table class="table">
+    <thead class="thead-dark">
       <tr>
+        <th>Position</th>
         <th>Emoji</th>
         <th>Likes</th>
       </tr>
     </thead>
     <tbody>
+    <!-- From an asnwer in https://stackoverflow.com/questions/7537439/how-to-increment-a-variable-on-a-for-loop-in-jinja-template -->
+      {% set position = namespace(value=1) %}
+         
     {% for emoji in favorite %}
       <tr>
-        <td translate="no">&#{{emoji.hexa}}</td>
+        <td>{{ position.value }}</td>
+        <td><span class="imagen" translate="no">&#{{emoji.hexa}}</span></td>
         <td>{{emoji.vote}}</td>
       </tr>
+      
+      {% set position.value = position.value + 1 %}
     {% endfor %}
     </tbody>
-{% endblock %}
+  </table>
+</div>
+<div id="container-to-item-selected"></div>
+  {% endblock %}

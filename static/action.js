@@ -2,8 +2,7 @@
 // puede y debe ser antes de desplegar la ventana
 document.documentElement.setAttribute('tema', sessionStorage.mode);
 
-window.onload = function() 
-{   
+window.onload = function() {   
     // Si el tema activo es 'moon' marcar chexkbox
     if (document.documentElement.getAttribute('tema') == 'moon') {
         document.querySelector('#mode input[type="checkbox"]').checked = true;
@@ -55,7 +54,8 @@ window.onload = function()
 
     }
 
-    if(window.location.pathname == "/acount" || window.location.pathname == "/food_table" ) {
+    if(window.location.pathname == "/acount" || window.location.pathname == "/food_table" || window.location.pathname == "/favorites") 
+    {
         
         // Moviendo la pantalla "scrolling" hasta el container
         function afterSelected() {
@@ -67,9 +67,12 @@ window.onload = function()
                     document.getElementById('form-like-and-delete').setAttribute('method', 'post');
                     document.getElementById('button-item-selected-like').innerHTML = "Delete";
                 }
+
+                if(window.location.pathname == "/favorites") {
+                    document.getElementById('form-like-and-delete').setAttribute('action', '/favorites'); 
+                }
             }
         }
-        
         // searching from emojis buttons
         const emojis = document.getElementsByClassName('imagen');
             for (i = 0; i < emojis.length; i++) {
