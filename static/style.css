@@ -66,6 +66,32 @@ body {
 .password-emoji:hover {
   cursor:pointer;
 }
+/* FOR LOGIN PAGE */
+
+.grid-father{
+  margin: 0 auto;
+  display: grid;
+  gap: 0.5rem;
+  /* creo las areas de mi grid */
+  grid-template-areas: 
+  'first'
+  'secund'
+  'third'
+  ;
+}
+
+
+.grid-child:nth-child(1) {
+  grid-area: first;
+}
+.grid-child:nth-child(2) {
+  grid-area: secund;
+}
+.grid-child:nth-child(3) {
+  grid-area: third;
+}
+/* the displays are at the end of this file. */
+
 /* FOR REGISTER PAGE */
 
 #password-state-match {
@@ -73,8 +99,8 @@ body {
   font-size: 1.2rem;
 }   
 
-.register-cont {
-  margin: 2rem;
+.redirect-to-register {
+  max-width: 16rem;
   padding: 1 rem;
   border-radius: 0.5rem;
   background-color: var(--pad--color, #7FBCD2);
@@ -138,21 +164,39 @@ body {
   margin: 0 2rem; 
 }
 
+/* for long widht screens */
+@media (min-width: 65.01rem) {
+  .grid-father {
+    grid-template-areas:
+    'third third first' 
+    'third third secund'
+    'third third secund';        
+    }
+}
 
 
-
+/* for desktops */
 @media (min-width: 50rem) and (max-width: 65rem) {
   .txt-serched {
       font-size: 1.1rem;
       width: 45%;
   }
+  
+  .grid-father {
+    grid-template-areas:
+    'first first secund' 
+    'third third third'
+    'third third third';        
+    }
+}
+
   .container-img-serched {
       width: 50%;
   }
   .container-table {
     max-width: 50%;
   }
-}
+
 
 
 /* para telefonos */

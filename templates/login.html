@@ -5,26 +5,35 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/login" method="post">
-        
-        
-
-        <div class="input-group mb-3 mx-auto w-auto">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text">
-        </div>
-        <div class="input-group mb-3 mx-auto w-auto">
-            <input class="form-control" id="password" name="password" placeholder="Password" type="password" aria-describedby="password-emoji">
-            <span id="password-emoji" class="input-group-text password-emoji" translate="no">🙈</span>
-        </div>
-        
-        <button class="btn btn-primary" type="submit">Log In</button><br>
-        <a href="/password_reset"><span>Do you forget your password?</span><br><span>Click here!</span></a>
-    </form>
-        <br>
-    <div class="register-cont">
-        <span>You can register here</span>
-        <form action="/register" method="get">
-            <button class="btn btn-primary" type="submit">Register</button>
+<div class="grid-father">
+    <div class="grid-child">
+        <form action="/login" method="post">
+            
+            <div class="input-group mb-3 mx-auto w-auto">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="text">
+            </div>
+            <div class="input-group mb-3 mx-auto w-auto">
+                <input class="form-control" id="password" name="password" placeholder="Password" type="password" aria-describedby="password-emoji">
+                <span id="password-emoji" class="input-group-text password-emoji" translate="no">🙈</span>
+            </div>
+            <button class="btn btn-primary" type="submit">Log In</button><br>
+            <a href="/password_reset"><span>Do you forget your password?</span><br><span>Click here!</span></a>
         </form>
     </div>
+    
+    
+    <div class="grid-child">
+        <div class="redirect-to-register mb-3 mx-auto w-auto">
+            <span>You can register here</span>
+            <form action="/register" method="get">
+                <button class="btn btn-primary" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+    <div class="grid-child">
+        <h1>Welcome to Emoji Food!</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus obcaecati dolorum maiores nam expedita, ipsa rerum est labore ad modi earum dolor consequuntur, ducimus quo aliquam doloribus quisquam voluptate similique ullam unde corrupti? Sed quisquam quia temporibus, quos id eveniet veritatis ratione magnam explicabo ut quibusdam natus pariatur itaque incidunt veniam, a magni asperiores amet quae sapiente sit error consequuntur suscipit nesciunt? Quis eos consequuntur hic possimus ipsum, animi cumque facilis suscipit minima ullam quae, rerum, soluta quaerat sint ab! Quaerat nisi, asperiores possimus eius suscipit incidunt placeat, ea assumenda omnis impedit quae pariatur consequatur quam eaque rem itaque blanditiis iure ab harum illo? Deleniti doloribus animi dicta aut repudiandae, tempora iure, sequi iusto autem vitae at beatae sint maiores? Aspernatur quam laudantium quod, officiis, laboriosam voluptate amet ex incidunt ab odit sit. Facere ut quia porro sint asperiores explicabo exercitationem vitae iure, voluptate hic, natus assumenda necessitatibus beatae aperiam.</p>
+    </div>
+<!-- padre -->
+</div> 
 {% endblock %}

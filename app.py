@@ -280,8 +280,10 @@ def register():
         mail.send(message)
 
         #redirect to login page
-        flash("Now you are register, you can login. We have send an welcome message to your email")
-        return redirect(url_for("login"))
+        flash("Now you are register. We have send an welcome message to your email")
+        
+        # code=307 is for specified the POST method 
+        return redirect(url_for("login"), code=307)
 
     # displaying register form
     return render_template("register.html")
