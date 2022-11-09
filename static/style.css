@@ -40,7 +40,7 @@ body {
 
 /* Un atributo que creare en la root del html (creo) con en js */
 [tema="sun"]{
-  --back--color: #A5F1E9;;
+  --back--color: #A5F1E9;
   --let--color: rgb(0, 0, 0);
   --bord--color: #7FBCD2;
   --pad--color: #57FB6C;
@@ -53,7 +53,7 @@ body {
   --let--color: white;
   --bord--color: #AF0171;
   --pad--color: #E40DC8;
-  --key-word--color: rgb(35, 250, 35);
+  --key-word--color: #A5F1E9;
 }
 
 #switch-mode-display {
