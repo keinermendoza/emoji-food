@@ -13,7 +13,10 @@
   --pad--color: #57FB6C;
   --key-word--color: blue;
 }
-
+nav {
+background-color: var(--bord--color);
+color: var(--let--color);
+}
 button {
   background-color: var(--pad--color);
   border-radius: 1rem;
