@@ -110,9 +110,10 @@ body {
 
 .redirect-to-register {
   max-width: 16rem;
-  padding: 1 rem;
+  padding-bottom: 2rem;
+  padding-top: 1rem;
   border-radius: 0.5rem;
-  background-color: var(--pad--color, #7FBCD2);
+  background-color: var(--bord--color, #7FBCD2);
 }
 /* FOR INDEX PAGE */
 .emoji-welcome-index-page {
