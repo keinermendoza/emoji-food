@@ -1,18 +1,16 @@
 {% if emoji_data %}
         {% for data in emoji_data %}
-                {% if favorites %}
-
-                <h1>Logre diferenciar!</h1>
-                {% endif %}
-                <h2>{{data.name}} <span>&#{{data.hexa}} <form id="form-like-and-delete" method="get" action="/like_it">
-                        <button name="emoji_id" id="button-item-selected-like" class="btn btn-primary" value="{{data['id']}}">I like it &#128077</button>
-                        </form></span> <h2>
-
-                <div class="item-selected">
-                        <div class="container-img-serched">
+                <div class="two-in-row">
+                        <h2>{{data.name}} <span>&#{{data.hexa}}</span></h2>
+                        <form id="form-like-and-delete" method="get" action="/like_it">
+                                <button name="emoji_id" id="button-item-selected-like" value="{{data['id']}}">I like it &#128077</button>
+                        </form>
+                </div>
+                <div class="container-text-and-img-serched">
+                        <div class="div-to-img-serched">
                                 <img translate="no" class="img-serched" src="{{data.img}}" alt="{{data.name}}">
                         </div>
-                        <div class="txt-serched">
+                        <div class="div-to-txt-serched">
                                 <p>{{data.description}}</p>
                         </div>
                 </div>

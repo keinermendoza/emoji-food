@@ -7,23 +7,27 @@
 
 
 :root {
-  --back--color: #A5F1E9;;
+  --back--color: #A5F1E9;
   --let--color: rgb(0, 0, 0);
-  --bord--color: #A5F1E9;
-  --pad--color: #7FBCD2;
-  --key-word--color: orange;
+  --bord--color: #7FBCD2;
+  --pad--color:  orange;
+  --key-word--color: blue;
 }
 
 button {
-  padding: 1rem;
+  background-color: var(--pad--color);
+  border-radius: 1rem;
+  padding: 0.3rem;
+  color: var(--let--color);
+  
 }
-p, a {
+p, a, #input-emoji, button {
   font-family: 'Times New Roman', Times, serif;
   color: var(--let--color, black); 
   font-size: 1.2rem;
 }
 body {
-  background-color: var(--back--color,#FFEEAF);
+  background-color: var(--back--color, #A5F1E9);
   color: var(--let--color, black);
 }
 
@@ -38,17 +42,17 @@ body {
 [tema="sun"]{
   --back--color: #A5F1E9;;
   --let--color: rgb(0, 0, 0);
-  --bord--color: #A5F1E9;
-  --pad--color: #7FBCD2;
-  --key-word--color: orange;
+  --bord--color: #7FBCD2;
+  --pad--color:  orange;
+  --key-word--color: blue;
 }
 
 /* Un atributo que creare en la root del html (creo) con en js */
 [tema="moon"] {
   --back--color: #4C0033;
-  --let--color: #E80F88;
+  --let--color: white;
   --bord--color: #AF0171;
-  --pad--color: #790252;
+  --pad--color: blue;
   --key-word--color: rgb(35, 250, 35);
 }
 
@@ -113,6 +117,7 @@ body {
 /* FOR INDEX PAGE */
 .emoji-welcome-index-page {
   font-size: 6rem;
+  margin-right: 2rem;
 }
 
 .info-in-index{
@@ -133,14 +138,18 @@ body {
 
 
 /* FOR FOOD-TABLE PAGE */
-
+#input-emoji {
+  max-width: 4rem;
+  border-radius: 1rem;
+  text-align: center;
+}
 .imagen {
   font-size: 1.5rem;
-  background-color: rgb(240, 228, 228);
+  background-color: var(--bord--color);
   margin: 0.25rem;
   padding: 0.5rem;
   border-radius: 1rem;
-  transition-property: background-color;
+  transition-property: background-color, border-color;
   transition-duration: 0.5s;
   box-shadow: none;
   
@@ -148,6 +157,7 @@ body {
 .imagen:hover {
   cursor:pointer;
   background-color: var(--pad--color);
+  border-color: var(--key-word--color);
 }
 .container-imagenes {
   margin: 2rem;
@@ -163,31 +173,50 @@ body {
   flex-direction: column;
 }
 /* Clases aplicadas dentro de search.html */
-.item-selected {
+.two-in-row {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin-bottom: 2rem;
+}
+.container-text-and-img-serched {
   margin: auto;
-  width: 80%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   
 }
-.container-img-serched {
-  width: 60%;
+.div-to-img-serched {
+  width: 55%;
 }
 .img-serched {
   width: 100%;
   border-radius: 2rem;
   max-height: 30rem;
 }
-.txt-serched {
-  width: 30%;
-  
+.div-to-txt-serched {
+  width: 42%;
   font-size: 1.5rem;
   text-align: justify;
 }
 #button-item-selected-like {
   margin: 0 2rem; 
+}
+
+/* FOR FAVORITES PAGE */
+.container-table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 40%;
+  background-color: var(--bord--color);
+  padding: 2rem;
+  border-radius: 2rem;
+  margin-bottom: 2rem;
+}
+.container-table td {
+  color: var(--let--color);
 }
 
 /* for long widht screens */
@@ -206,9 +235,9 @@ body {
 
 /* for desktops */
 @media (min-width: 50rem) and (max-width: 65rem) {
-  .txt-serched {
+  .div-to-txt-serched {
       font-size: 1.1rem;
-      width: 45%;
+      width: 48%;
   }
   p, a {
     font-size: 1.2rem;
@@ -221,8 +250,9 @@ body {
     }
 }
 
-  .container-img-serched {
-      width: 50%;
+.div-to-img-serched {
+      width: 48%;
+      margin-right: 2%;
   }
   .container-table {
     max-width: 50%;
@@ -232,15 +262,16 @@ body {
 
 /* para telefonos */
 @media (max-width: 50rem) {
-  p, a {
+  p, a, button {
     font-size: 1rem;
   }
-  .txt-serched {
-      font-size: 1.1rem;
-      width: 100%;
+  .div-to-txt-serched {
+      font-size: 1.2rem;
+      width: 90%;
   }
-  .container-img-serched {
+  .div-to-img-serched {
       width: 100%;
+      margin-bottom: 2rem;
   }
   .container-table {
     max-width: 90%;

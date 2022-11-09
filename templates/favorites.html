@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<div class="container-table">
+<div class="container-table mx-auto w-auto">
   <table class="table">
     <thead class="thead-dark">
-      <tr>
+      <tr class="table-success">
         <th>Position</th>
         <th>Emoji</th>
         <th>Likes</th>
@@ -16,7 +16,7 @@
          
     {% for emoji in favorite %}
       <tr>
-        <td>{{ position.value }}</td>
+        <td>#{{ position.value }}</td>
         <td><span class="imagen" translate="no">&#{{emoji.hexa}}</span></td>
         <td>{{emoji.vote}}</td>
       </tr>
