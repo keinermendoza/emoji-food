@@ -1,8 +1,15 @@
 {% extends "layout.html" %}
 
 {% block main %}
-    <p>Hello World!</p>
-    <h1>In Search food you will Find a List of 129 Emojis for look</h1>
-    <h1>In My Acount you will see all the emojis that you've give "a like"</h1>
-<h1>In Top 5 you will find the 5 emojis most popular in this web app</h1>
+
+<h1><span class="emoji-welcome-index-page">&#129395 </span>This is to Emoji Food.</h1>
+
+<div class="info-in-index mb-3 mx-auto w-auto">
+    <h3>A continuacion encontraras algunas informaciones importantes:</h3>
+    <p>En la parte de arriba encontraras la barra de navegacion, con ella podras recorrer el lugar.</p>
+    <p>En <span class="key-word"><a href="/food_table">🔍 Search Food</a></span> encontaras una lista de todos los emojis de comida, puedes hacer click en ellos para obtener su informacion o si lo prefieres puedes buscar un emoji de comida pegandolo en la caja de texto que esta en la parte superio. Tambien puedes Marcar aquellos Emojis que te gusten.</p>
+    <p>En <span class="key-word"><a href="/acount">💎 My Acount</a></span> veras una lista con los emojis a los que hayas dado <span class="key-word">I like it &#128077</span>, para ver su informacion solo debes hacer click en ellos y si por alguna razon ya no te gustan solo has click en <span class="key-word">Delete</span>. En esta pagina tambien podras cambiar tu contraseña de acceso.</p>
+    <p><span class="key-word"><a href="/favorites">🏆 Top 5</a></span> es el lugar en el que se encuentran los emojis mas populares, los que han recibido más <span class="key-word">I like it &#128077</span>. Si quieres ver su informacion de alguno de ellos solo has click en el.</p>    
+    <p>Si en algun momento quieres volver a esta pagina solo has click en <span class="key-word">&#128523 Emoji Food</span></p>
+</div>
 {% endblock %}

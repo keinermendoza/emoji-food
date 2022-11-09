@@ -7,17 +7,20 @@
 
 
 :root {
-  --back--color: #FFEEAF;
+  --back--color: #A5F1E9;;
   --let--color: rgb(0, 0, 0);
   --bord--color: #A5F1E9;
   --pad--color: #7FBCD2;
+  --key-word--color: orange;
 }
 
 button {
   padding: 1rem;
 }
 p, a {
+  font-family: 'Times New Roman', Times, serif;
   color: var(--let--color, black); 
+  font-size: 1.2rem;
 }
 body {
   background-color: var(--back--color,#FFEEAF);
@@ -33,10 +36,11 @@ body {
 
 /* Un atributo que creare en la root del html (creo) con en js */
 [tema="sun"]{
-  --back--color: #FFEEAF;
+  --back--color: #A5F1E9;;
   --let--color: rgb(0, 0, 0);
   --bord--color: #A5F1E9;
   --pad--color: #7FBCD2;
+  --key-word--color: orange;
 }
 
 /* Un atributo que creare en la root del html (creo) con en js */
@@ -45,6 +49,7 @@ body {
   --let--color: #E80F88;
   --bord--color: #AF0171;
   --pad--color: #790252;
+  --key-word--color: rgb(35, 250, 35);
 }
 
 #switch-mode-display {
@@ -105,6 +110,27 @@ body {
   border-radius: 0.5rem;
   background-color: var(--pad--color, #7FBCD2);
 }
+/* FOR INDEX PAGE */
+.emoji-welcome-index-page {
+  font-size: 6rem;
+}
+
+.info-in-index{
+  max-width: 90%;
+  text-align: justify;
+}
+
+.key-word, .key-word > a{
+  text-decoration: none;
+  font-weight: bold;
+  color:  var(--key-word--color);
+}
+.key-word > a{
+  background-color: var(--pad--color);
+  border-radius: 1rem;
+  padding: 0.2rem;
+}
+
 
 /* FOR FOOD-TABLE PAGE */
 
@@ -156,7 +182,7 @@ body {
 }
 .txt-serched {
   width: 30%;
-  font-family: 'Times New Roman', Times, serif;
+  
   font-size: 1.5rem;
   text-align: justify;
 }
@@ -166,6 +192,9 @@ body {
 
 /* for long widht screens */
 @media (min-width: 65.01rem) {
+  p, a {
+    font-size: 1.4rem;
+  }
   .grid-father {
     grid-template-areas:
     'third third first' 
@@ -181,7 +210,9 @@ body {
       font-size: 1.1rem;
       width: 45%;
   }
-  
+  p, a {
+    font-size: 1.2rem;
+  }
   .grid-father {
     grid-template-areas:
     'first first secund' 
@@ -201,8 +232,11 @@ body {
 
 /* para telefonos */
 @media (max-width: 50rem) {
+  p, a {
+    font-size: 1rem;
+  }
   .txt-serched {
-      font-size: 1rem;
+      font-size: 1.1rem;
       width: 100%;
   }
   .container-img-serched {
