@@ -1,11 +1,23 @@
 /* BOOTSTRAP CLASS */
+
+/* for the most part of inputs */
 .input-group {
   max-width: 16rem;
   display: flex;
   flex-wrap: nowrap;
 }
 
+/* for modifiy background-color of navbar */
+.navbar {
+  background-color: var(--bord--color);
+}
 
+/* for modifiy color text of navbar */
+.navbar-brand, .nav-item > a {
+  font-size: 1.5rem;
+}
+
+/* SET OF COLOR VARIABLES */
 :root {
   --back--color: #A5F1E9;
   --let--color: rgb(0, 0, 0);
@@ -13,17 +25,7 @@
   --pad--color: #A5FF4B;
   --key-word--color: blue;
 }
-nav {
-background-color: var(--bord--color);
-color: var(--let--color);
-}
-button {
-  background-color: var(--pad--color);
-  border-radius: 1rem;
-  padding: 0.3rem;
-  color: var(--let--color);
-  
-}
+
 p, a, #input-emoji, button {
   font-family: 'Times New Roman', Times, serif;
   color: var(--let--color, black); 
@@ -34,12 +36,12 @@ body {
   color: var(--let--color, black);
 }
 
-/* div {
-  background-color: var(--pad--color, #FFEEAF);
-  border: solid var(--bord--color, #A5F1E9) 1rem;
-} */
-
-
+button {
+  background-color: var(--pad--color);
+  border-radius: 1rem;
+  padding: 0.3rem;
+  color: var(--let--color); 
+}
 
 /* Un atributo que creare en la root del html (creo) con en js */
 [tema="sun"]{
@@ -58,7 +60,7 @@ body {
   --pad--color: #E40DC8;
   --key-word--color: #A5F1E9;
 }
-
+/* for navbar */
 #switch-mode-display {
   display: flex;
   align-items: center;
@@ -69,6 +71,8 @@ body {
   padding: 0 0.6rem 0 0;
   margin-bottom: 0.2rem;
 }
+
+/* for emojis asociated with password */
 .password-emoji {
   font-size: 1.2rem;
   /* position: absolute;
@@ -78,6 +82,7 @@ body {
 .password-emoji:hover {
   cursor:pointer;
 }
+
 /* FOR LOGIN PAGE */
 
 .grid-father{
@@ -104,13 +109,7 @@ body {
 }
 /* the displays are at the end of this file. */
 
-/* FOR REGISTER PAGE */
-
-#password-state-match {
-  margin: 2rem;
-  font-size: 1.2rem;
-}   
-
+/* FOR LOGIN PAGE */
 .redirect-to-register {
   max-width: 16rem;
   padding-bottom: 2rem;
@@ -118,6 +117,12 @@ body {
   border-radius: 0.5rem;
   background-color: var(--bord--color, #7FBCD2);
 }
+/* FOR REGISTER PAGE */
+
+#password-state-match {
+  margin: 2rem;
+  font-size: 1.2rem;
+}   
 /* FOR INDEX PAGE */
 .emoji-welcome-index-page {
   font-size: 6rem;
@@ -252,15 +257,18 @@ body {
     'third third third'
     'third third third';        
     }
-}
-
-.div-to-img-serched {
+    .navbar-brand, .nav-item > a {
+      font-size: 1.2rem;
+    }
+    
+    .div-to-img-serched {
       width: 48%;
       margin-right: 2%;
-  }
-  .container-table {
-    max-width: 50%;
-  }
+    }
+    .container-table {
+      max-width: 50%;
+    }
+}
 
 
 
@@ -279,5 +287,8 @@ body {
   }
   .container-table {
     max-width: 90%;
+  }
+  .navbar-brand, .nav-item > a {
+    font-size: 1rem;
   }
 }
