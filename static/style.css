@@ -313,7 +313,7 @@ button {
     margin-right: 1rem;
   }
   .login-forms {
-      width: 20rem;
+      max-width: 18rem;
       margin: auto;
   }
 }
