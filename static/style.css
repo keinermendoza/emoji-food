@@ -16,7 +16,9 @@
 .navbar-brand, .nav-item > a {
   font-size: 1.5rem;
 }
-
+#navbar-collapse {
+  width: 10rem;
+}
 /* SET OF COLOR VARIABLES */
 :root {
   --back--color: #A5F1E9;
@@ -117,6 +119,12 @@ button {
   border-radius: 0.5rem;
   background-color: var(--bord--color, #7FBCD2);
 }
+.login-forms {
+  background-color: var(--bord--color);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
 /* FOR REGISTER PAGE */
 
 #password-state-match {
@@ -129,9 +137,10 @@ button {
   margin-right: 2rem;
 }
 
-.info-in-index{
+.info-in-login-and-index{
   max-width: 90%;
   text-align: justify;
+  margin-top: 2rem;
 }
 
 .key-word, .key-word > a{
@@ -253,9 +262,9 @@ button {
   }
   .grid-father {
     grid-template-areas:
-    'first first secund' 
-    'third third third'
-    'third third third';        
+    'first  secund' 
+    'third  third'
+    'third  third';        
     }
     .navbar-brand, .nav-item > a {
       font-size: 1.2rem;
@@ -268,6 +277,10 @@ button {
     .container-table {
       max-width: 50%;
     }
+    .login-forms {
+      width: 20rem;
+      margin: auto;
+  }
 }
 
 
@@ -291,8 +304,16 @@ button {
   .navbar-brand, .nav-item > a {
     font-size: 1rem;
   }
-.sun-and-moon {
-font-size: 1.2rem;
-margin-left: 0.1rem;
-}
+  .sun-and-moon {
+  font-size: 1.2rem;
+  margin-left: 0.1rem;
+  }
+  .emoji-welcome-index-page {
+    font-size: 4rem;
+    margin-right: 1rem;
+  }
+  .login-forms {
+      width: 20rem;
+      margin: auto;
+  }
 }

@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Log In
+Log In
 {% endblock %}
 
 {% block main %}
+<h1 class="mb-4">Welcome to Emoji Food!</h1>
 <div class="grid-father">
-    <div class="grid-child">
+    <div class="grid-child login-forms">
         <form action="/login" method="post">
             
             <div class="input-group mb-3 mx-auto w-auto">
@@ -16,24 +17,42 @@
                 <input class="form-control" id="password" name="password" placeholder="Password" type="password" aria-describedby="password-emoji">
                 <span id="password-emoji" class="input-group-text password-emoji" translate="no">🙈</span>
             </div>
-            <button  type="submit">Log In</button><br>
-            <a href="/password_reset"><span>Do you forget your password?</span><br><span>Click here!</span></a>
+            <button class="mb-4">Log In</button><br>
+            <a href="/password_reset">Forgot Password?</a>
         </form>
     </div>
     
     
-    <div class="grid-child">
+    <div class="grid-child login-forms">
         <div class="redirect-to-register mb-3 mx-auto w-auto">
-            <span>You can register here</span>
+            <p class="mb-4">You can register here</p>
             <form action="/register" method="get">
-                <button type="submit">Register</button>
+                <button >Register</button>
+              
             </form>
         </div>
     </div>
     <div class="grid-child">
-        <h1>Welcome to Emoji Food!</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus obcaecati dolorum maiores nam expedita, ipsa rerum est labore ad modi earum dolor consequuntur, ducimus quo aliquam doloribus quisquam voluptate similique ullam unde corrupti? Sed quisquam quia temporibus, quos id eveniet veritatis ratione magnam explicabo ut quibusdam natus pariatur itaque incidunt veniam, a magni asperiores amet quae sapiente sit error consequuntur suscipit nesciunt? Quis eos consequuntur hic possimus ipsum, animi cumque facilis suscipit minima ullam quae, rerum, soluta quaerat sint ab! Quaerat nisi, asperiores possimus eius suscipit incidunt placeat, ea assumenda omnis impedit quae pariatur consequatur quam eaque rem itaque blanditiis iure ab harum illo? Deleniti doloribus animi dicta aut repudiandae, tempora iure, sequi iusto autem vitae at beatae sint maiores? Aspernatur quam laudantium quod, officiis, laboriosam voluptate amet ex incidunt ab odit sit. Facere ut quia porro sint asperiores explicabo exercitationem vitae iure, voluptate hic, natus assumenda necessitatibus beatae aperiam.</p>
+       <div class="info-in-login-and-index mb-3 mx-auto w-auto">
+            <p>Algunas vez te has preguntado que cosa son esos platos extraños que aparecen en tu telefono en la seccion de comida de emojis?
+                seguramente habras notado que aplicaciones como Whatsapp o paginas como Facebook te permiten usar
+                pequeñas imagenes para expresar emociones <span>😁</span>, actividades <span>🏃‍♂️</span> e incluso comidas <span>🍔</span>, son los populares emojis.
+                Sin embargo las comidas suelen representar diferentes culturas por lo que es normal no conocer los 
+                platos de culturas muy diferentes a la propia.
+            </p>
+            <p>Esta pagina esta creada para que puedas ver mediante fotos reales y explicaciones (sacadas de Wikipedia) que son cada una de esas
+                129 comidas. podras tambien dar like a aquellos emojis que te gusten mas, y ver cuales son los emojis de comida mas populares 
+                dentro de la pagina.
+            </p>
+            <p>Lo mas probable es que conozcas la mayoria de los platos que veras en esta web pero con seguridad habra otros de los que no
+                tendras la minima idea. Sin mas que decir espero que disfrutes tu paso por aqui y que te sea de mucha utilidad, buen provecho! 😉
+            </p>
+        </div>
     </div>
+    
+    
+    
+
 <!-- padre -->
 </div> 
 {% endblock %}
