@@ -53,7 +53,7 @@ def after_request(response):
 def password_reset():
     """Manage the password forgive link of "/login" route"""
     if request.method == "POST":
-        email = request.form.get('email')
+        email = request.form.get('email').lower()
 
         # Check if user give an email
         if not email:
