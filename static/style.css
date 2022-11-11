@@ -16,9 +16,7 @@
 .navbar-brand, .nav-item > a {
   font-size: 1.5rem;
 }
-#navbar-collapse {
-  width: 10rem;
-}
+
 /* SET OF COLOR VARIABLES */
 :root {
   --back--color: #A5F1E9;
