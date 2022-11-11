@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
 
 {% block main %}
+<div class="navbar-for-acount">
+    <h1>{{username.username}}</h1>
+    <form action="/change_password">
+        <button type="submit">Change Password</button>
+    </form>
+</div>
+
     {% if user_favorites %}
+    
     <h2>This are your favorites</h2>
     <div class="container-imagenes">
         {% for emoji in user_favorites %}
@@ -13,7 +21,4 @@
 
     <div id="container-to-item-selected"></div>
 
-    <form action="/change_password">
-        <button type="submit">Go to Change your password</button>
-    </form>
 {% endblock %}

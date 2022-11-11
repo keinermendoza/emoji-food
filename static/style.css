@@ -39,7 +39,7 @@ body {
 button {
   background-color: var(--pad--color);
   border-radius: 1rem;
-  padding: 0.3rem;
+  padding: 0.6rem;
   color: var(--let--color); 
 }
 
@@ -205,6 +205,7 @@ button {
 }
 .div-to-img-serched {
   width: 55%;
+  margin-right: 1rem;
 }
 .img-serched {
   width: 100%;
@@ -235,6 +236,19 @@ button {
   color: var(--let--color);
 }
 
+/* FOR ACOUNT */
+.navbar-for-acount {
+  width: 101vw;
+  position:relative;
+  top: -2.8rem;
+  right: 1rem;
+  background-color: var(--bord--color);
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  padding: 0 2rem 0 2rem;
+}
+
 /* for long widht screens */
 @media (min-width: 65.01rem) {
   p, a {
@@ -255,7 +269,7 @@ button {
       font-size: 1.1rem;
       width: 48%;
   }
-  p, a {
+  p, a, button {
     font-size: 1.2rem;
   }
   .grid-father {
@@ -314,4 +328,7 @@ button {
       width: 18rem;
       margin: auto;
   }
+  .navbar-for-acount {
+    padding: 0 1rem 0 1rem;
+}
 }

@@ -365,17 +365,19 @@ def acount():
         db.execute("DELETE FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id})
         db.commit()
 
-
+    # obtaind the username
+    username = db.execute("SELECT username FROM users WHERE id = :id ", {"id":session["user_id"]}).fetchone()
+    
     # verifying that exist records for this user
     emoji_list = db.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id ", {"user_id":session["user_id"]}).fetchone()
     
     # if aren't recording returning a simple page
     if not emoji_list:
-        return render_template("acount.html")
+        return render_template("acount.html", username=username)
     
     # if are recordings select and return in a list
     user_favorites = db.execute("SELECT * FROM emojis WHERE id IN (SELECT emoji_id FROM preferences WHERE user_id = :user_id)", {"user_id":session["user_id"]}).fetchall()
-    return render_template("acount.html", user_favorites=user_favorites)
+    return render_template("acount.html", user_favorites=user_favorites, username=username)
 
 @app.route("/favorites")
 @login_required
