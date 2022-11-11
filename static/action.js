@@ -8,7 +8,7 @@ window.onload = function() {
         document.querySelector('#mode input[type="checkbox"]').checked = true;
     }
     
-    // Selecciono Box de Mode y agrego lamda
+    // Selecciono Box de Mode y agrego function
     document.querySelector('#mode input[type="checkbox"]').addEventListener('input', function(e){
         // Si activan moon-mode establecer atributo en root, activara css
         if(e.target.checked) {
@@ -23,7 +23,20 @@ window.onload = function() {
         }
     });
     
+    // using sun emoji for change the tema
+    document.getElementById('sun').addEventListener('click', function(){
+        document.querySelector('#mode input[type="checkbox"]').checked = false;
+        document.documentElement.setAttribute('tema', 'sun');
+        sessionStorage.mode = document.documentElement.getAttribute('tema');
+    });
     
+    // using moon emoji for change the tema
+    document.getElementById('moon').addEventListener('click', function(){
+        document.querySelector('#mode input[type="checkbox"]').checked = true;
+        document.documentElement.setAttribute('tema', 'moon');
+        sessionStorage.mode = document.documentElement.getAttribute('tema');
+    });
+
     // This if is for limit the aplication of this function 
     if(window.location.pathname != "/password_reset" && window.location.pathname != "/login" && window.location.pathname != "/acount"
     && window.location.pathname != "/favorites" && window.location.pathname != "/food_table" && window.location.pathname != "/"
