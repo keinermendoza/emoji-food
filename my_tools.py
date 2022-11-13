@@ -92,9 +92,7 @@ def welcome_message(destiny, name):
             padding: 2rem;
             text-align: center;
             border-radius: 1rem;
-            display:flex;
-            flex-direction:column;
-            justify-content: center;">
+            margin: auto;">
 
         <h2 style="text-justify: center;"><span style="font-size: 2rem;">🥳</span> Hello {name}. Wellcome to Emoji Food <span style="font-size: 2rem;">😁</span></h2>
         <h4>Tenemos las explicaciones de todos los emojis de comida, con fotos que estan para chuparse los dedos <span>😋</span></h4>
