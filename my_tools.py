@@ -37,8 +37,7 @@ def login_required(f):
 def reset_password_message(destiny, name, token):
     message = Message("Restarting your password", recipients=[destiny])
     # Buildng a personal message using api.memegen
-    message.html =f''' 
-<body style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; ">
+    message.html =f''' <body style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; ">
     <div style="max-width: 40rem;
                 font-size: 1.2rem;
                 margin: 1rem auto auto auto;
