@@ -86,7 +86,7 @@ def welcome_message(destiny, name):
 <body style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
     <div 
         style="max-width: 40rem;
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin: 1rem auto auto auto;
             background-color:rgb(28, 153, 224);
             padding: 2rem;
@@ -94,8 +94,8 @@ def welcome_message(destiny, name):
             border-radius: 1rem;
             margin: auto;">
 
-        <h2 style="text-justify: center;"><span style="font-size: 2rem;">🥳</span> Hello {name}. Wellcome to Emoji Food <span style="font-size: 2rem;">😁</span></h2>
-        <h4>Tenemos las explicaciones de todos los emojis de comida, con fotos que estan para chuparse los dedos <span>😋</span></h4>
+        <h3 style="text-justify: center;"><span style="font-size: 2rem;">🥳</span> Hello {name}. Wellcome to Emoji Food <span style="font-size: 2rem;">😁</span></h3>
+        <h5>Tenemos las explicaciones de todos los emojis de comida, con fotos que estan para chuparse los dedos <span>😋</span></h5>
         <h4>Puedes visitar nuestro site haciendo click en el boton que dejamos a continuacion</h4>
                 
         <form action="https://emoji-food.herokuapp.com" method="get">
@@ -112,7 +112,7 @@ def welcome_message(destiny, name):
                 
                 dentro de su caja de espam por favor seleccione la opcion "informar que no es spam".
                 esto ayudara en caso de que mas adelante olvide su contraseña.</p>
-            <p style="font-size: 2rem;">🌟 Esperamos tu visita. 🌟</p>
+            <p>🌟 Esperamos tu visita. 🌟</p>
         </form>
         <p>En caso que el boton no funcione puede copiar el siguiente link, o directamente hacer click en el <span>
             <a style="color: yellow;
