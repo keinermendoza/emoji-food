@@ -45,9 +45,7 @@ def reset_password_message(destiny, name, token):
                 padding: 2rem;
                 text-align: center;
                 border-radius: 1rem;
-                display:flex;
-                flex-direction: column;
-                justify-content: center;">
+                margin: auto;">
         
         <h1>Hello {name}</h1>
         <h2>🕵 Este es un email para resetear tu contraseña.</h2>
