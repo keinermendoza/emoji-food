@@ -39,7 +39,7 @@ def reset_password_message(destiny, name, token):
     # Buildng a personal message using api.memegen
     message.html =f''' <body style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; ">
     <div style="max-width: 40rem;
-                font-size: 1.2rem;
+                font-size: 1rem;
                 margin: 1rem auto auto auto;
                 background-color:rgb(28, 153, 224);
                 padding: 2rem;
@@ -50,7 +50,7 @@ def reset_password_message(destiny, name, token):
         <h1>Hello {name}</h1>
         <h2>🕵 Este es un email para resetear tu contraseña.</h2>
             
-        <img style="width: 30vw;
+        <img style="width: 80%;
                     margin: 0 auto;"
                 src="https://api.memegen.link/images/jim/don't_worry_{name}_this_happens_all_the_time/Just_click_on_the_button_bellow_for_reset_your_password.png">
             
