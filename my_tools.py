@@ -48,27 +48,31 @@ def reset_password_message(destiny, name, token):
                 display:flex;
                 flex-direction: column;
                 justify-content: center;">
-
+        
         <h1>Hello {name}</h1>
         <h2>🕵 Este es un email para resetear tu contraseña.</h2>
             
-        <img style="width: 80%;
+        <img style="width: 30vw;
                     margin: 0 auto;"
                 src="https://api.memegen.link/images/jim/don't_worry_{name}_this_happens_all_the_time/Just_click_on_the_button_bellow_for_reset_your_password.png">
             
         <form action="https://emoji-food.herokuapp.com/password_reset_verified/{token}" method="get">
             
-            <button style="margin: 1rem auto 2rem auto;
+            <button 
+                style="margin: 1rem auto 2rem auto;
                         padding: 1rem;
                         background-color: rgb(160, 19, 160);
                         border-radius: 0.5rem;
                         font-weight: bold;
                         color:white;" 
+
                     type="submit">🔑 Reset Your Password 🔐</button>
 
-            <p><a style="color: rgb(160, 19, 160);
+            <p><a 
+                style="color: rgb(160, 19, 160);
                         font-weight: bold;
-                        margin-top: 1rem;" 
+                        margin-top: 1rem;"
+
                     href="https://emoji-food.herokuapp.com/password_reset_verified/{token}">
                     Tambien puedes resetear tu contraseña haciendo click aqui 🗝</a></p>
         </form>
@@ -91,7 +95,7 @@ def welcome_message(destiny, name):
             text-align: center;
             border-radius: 1rem;
             display:flex;
-            flex-direction: column;
+            flex-direction:column;
             justify-content: center;">
 
         <h2 style="text-justify: center;"><span style="font-size: 2rem;">🥳</span> Hello {name}. Wellcome to Emoji Food <span style="font-size: 2rem;">😁</span></h2>
