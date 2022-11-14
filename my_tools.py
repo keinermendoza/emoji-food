@@ -1,11 +1,54 @@
 import os
-
-
 from flask_mail import Message
 from flask import redirect, render_template, request, session, url_for
 from functools import wraps
 import jwt
-                  
+
+# toke from https://www.geeksforgeeks.org/python-program-check-validity-password/amp/
+def validation_password(password_input):
+    
+    #temporal counters
+    l, u, p, d = 0, 0, 0, 0
+
+    #requirements
+    capitalalphabets="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    smallalphabets="abcdefghijklmnopqrstuvwxyz"
+    specialchar="#?!@$%^&*-"
+    digits="0123456789"
+
+    # minimun length
+    if (len(password_input) < 6):
+        
+        return False
+
+    for i in password_input:
+
+        # counting lowercase alphabets
+        if (i in smallalphabets):
+            l+=1           
+        
+        # counting uppercase alphabets
+        if (i in capitalalphabets):
+            u+=1           
+
+        # counting digits
+        if (i in digits):
+            d+=1           
+
+        # counting the mentioned special characters
+        if(i in specialchar):
+            p+=1       
+
+        # valid password
+        if (l>=1 and u>=1 and p>=1 and d>=1 and l+p+u+d==len(password_input)):
+            return True
+
+        # invalid password
+        else:
+            
+            return False
+
+
 # I toke an example from https://pyjwt.readthedocs.io/en/latest/usage.html
 # make a token using jwt.
 def get_reset_token(user_id):

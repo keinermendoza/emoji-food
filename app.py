@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 # "own" functions
-from my_tools import reset_password_message, welcome_message, login_required, get_reset_token, verify_reset_token
+from my_tools import validation_password, reset_password_message, welcome_message, login_required, get_reset_token, verify_reset_token
 
 # flask 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
@@ -102,14 +102,22 @@ def reset_verified(token):
     if request.method == "POST":
         # Ensure password was register
         if not password:
-            flash("must register a password", "warning")
+            flash("must register a password")
             return render_template("change_password.html", token=token)
 
         # Ensure confirm-password register
         elif not confirmation:
-            flash("must confirm your password", "warning")
+            flash("must confirm your password")
             return render_template("change_password.html", token=token)
 
+        elif validation_password(password) != True:
+            flash("the password does not meet the minimum requirements")
+            return render_template("change_password.html", token=token)
+        
+        elif validation_password(confirmation) != True:
+            flash("the password does not meet the minimum requirements")
+            return render_template("change_password.html", token=token)
+            
         # Ensure password was submitted
         elif password != confirmation:
             flash("confirm password not macht", "warning")
@@ -152,17 +160,25 @@ def change_password():
 
         # Ensure password was register
         elif not password:
-            flash("must register a password", "warning")
+            flash("must register a password")
             return render_template("change_password.html")
 
         # Ensure confirm-password register
         elif not confirmation:
-            flash("must confirm your password", "warning")
+            flash("must confirm your password")
+            return render_template("change_password.html")
+
+        elif validation_password(password) != True:
+            flash("the password does not meet the minimum requirements")
+            return render_template("change_password.html")
+
+        elif validation_password(confirmation) != True:
+            flash("the password does not meet the minimum requirements")
             return render_template("change_password.html")
 
         # Ensure password was submitted
         elif password != confirmation:
-            flash("confirm password not macht", "warning")
+            flash("confirm password not macht")
             return render_template("change_password.html")
         
         # Storing data in database
@@ -193,12 +209,12 @@ def login():
         password = request.form.get("password")
 
         if not email:
-            flash("must provide an username", "error")
+            flash("must provide an username")
             return render_template("login.html")
 
         # Ensure password was submitted
         elif not password:
-            flash("must provide password", "error")
+            flash("must provide password")
             return render_template("login.html")
 
         # Query database for username
@@ -206,7 +222,7 @@ def login():
         
         # Ensure username exists and password is correct
         if user is None or not check_password_hash(user.hash, password):
-            flash("invalid username and/or password", "error")
+            flash("invalid username and/or password")
             return render_template("login.html")
 
         # Remember which user has logged in
@@ -236,38 +252,49 @@ def register():
 
         username = request.form.get("username").title()
         password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
         email = request.form.get("email").lower()
 
         # Ensure email was register
         if not email:
-            flash("must register an email", 'error')
+            flash("must register an email")
             return render_template("register.html")
 
         # Ensure username was register
         elif not username:
-            flash("must register an username", 'error')
+            flash("must register an username")
             return render_template("register.html")
 
         # Ensure password was register
         elif not password:
-            flash("must register a password", 'error')
+            flash("must register a password")
             return render_template("register.html")
 
         # Ensure confirm-password register
-        elif not request.form.get("confirmation"):
-            flash("must confirm your password", 'error')
+        elif not confirmation:
+            flash("must confirm your password")
+            return render_template("register.html")
+
+        elif validation_password(password) != True:
+            
+            flash("the password does not meet the minimum requirements")
+            return render_template("register.html")
+
+        elif validation_password(confirmation) != True:
+            
+            flash("the password does not meet the minimum requirements")
             return render_template("register.html")
 
         # Ensure password was submitted
-        elif password != request.form.get("confirmation"):            
-            flash("confirm password not macht", 'error')
+        elif password != confirmation:            
+            flash("confirm password not macht")
             return render_template("register.html")
 
         # Ensure email was not exist in dataBase
         repeated_email = db.execute("SELECT email FROM users WHERE email = :email", {"email":email}).fetchone()
 
         if repeated_email:
-            flash("This email already exist", 'error')
+            flash("This email already exist")
             return render_template("register.html")
 
         # Storing data in database
