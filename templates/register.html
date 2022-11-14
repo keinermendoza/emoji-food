@@ -25,7 +25,7 @@
 
             <!-- pattern copied from http://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=psw -->
             <input class="form-control" id="password" name="password" placeholder="Password" type="password"  
-             title="From 6 characters, at least one upper, one lower, one number and one of these symbols #?!@$%^&*-" 
+             title="Password must have at lest 6 characters, at least one upper, one lower, one number and one of these symbols #?!@$%^&*-" 
              aria-describedby="password-emoji" requerid pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$">
             
             <span translate="no" id="password-emoji" class="input-group-text password-emoji">🙈</span>
@@ -38,8 +38,10 @@
                 requerid pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$">
 
             <span translate="no" id="confirmation-emoji" class="input-group-text password-emoji" id="visibility">🙈</span>
-        </div>
 
+        </div>
+        <p class="small-text">la contraseña debe tener como minimo 6 caracteres, de los cuales debe haber 1 minuscula,
+             1 mayuscula, 1 numero y 1 de los siguientes simbolos #?!@$%^&*-</p>
         <div>
             <p id="password-state-match"></p>
             

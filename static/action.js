@@ -139,7 +139,7 @@ window.onload = function() {
                 }
                 
                 else if (verify == null) {
-                    match.innerHTML = "Password not valid yet &#129300";
+                    match.innerHTML = "the password does not meet the minimum requirements yet &#129300";
                 }
 
                 else if (password == confirmation) {

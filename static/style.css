@@ -129,6 +129,13 @@ button {
 }
 
 /* FOR REGISTER PAGE */
+.small-text {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--bord--color);
+  max-width: 35rem;
+  margin: auto;
+}
 
 #password-state-match {
   margin: 2rem;
