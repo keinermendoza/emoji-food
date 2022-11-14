@@ -86,7 +86,7 @@ window.onload = function() {
     
     // Using emojis for show and hide the password
 
-    // This if is for limit the aplication of this function. it works on login, register, and change_password pages 
+    // This if is for limit the aplication of this function. it works on login, register, change_password and password_reset<token> pages 
     if(window.location.pathname != "/password_reset" && window.location.pathname != "/acount"
     && window.location.pathname != "/favorites" && window.location.pathname != "/food_table" && window.location.pathname != "/"
     && window.location.pathname != "/search"  && window.location.pathname != "/logout" && window.location.pathname != "/like_it") {
@@ -104,7 +104,7 @@ window.onload = function() {
         });
     }
 
-    // This if is for limit the aplication of this function. it works on register and change_password pages
+    // This if is for limit the aplication of this function. it works on register, change_password and password_reset<token> pages
     if(window.location.pathname != "/password_reset" && window.location.pathname != "/login" && window.location.pathname != "/acount"
     && window.location.pathname != "/favorites" && window.location.pathname != "/food_table" && window.location.pathname != "/"
     && window.location.pathname != "/search"  && window.location.pathname != "/logout" && window.location.pathname != "/like_it") {
@@ -152,18 +152,10 @@ window.onload = function() {
             })
         });
 
-        //copied from an answer in https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-        
-
-
     }
 
-
     // This if is for limit the aplication of this function. it just works on change_password page.
-    if(window.location.pathname != "/password_reset" && window.location.pathname != "/login" && window.location.pathname != "/acount"
-    && window.location.pathname != "/favorites" && window.location.pathname != "/food_table" && window.location.pathname != "/"
-    && window.location.pathname != "/search"  && window.location.pathname != "/logout" && window.location.pathname != "/like_it"
-    && window.location.pathname != "/register") {
+    if(window.location.pathname == "/change_password") {
         // Using emojis for show and hide the password
         document.getElementById('old_password-emoji').addEventListener('click', function() {
             if (this.innerHTML == '🙈') {

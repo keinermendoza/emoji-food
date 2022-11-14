@@ -26,9 +26,7 @@
             <!-- pattern copied from http://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=psw -->
             <input class="form-control" id="password" name="password" placeholder="Password" type="password"  
              title="From 6 characters, at least one upper, one lower, one number and one of these symbols #?!@$%^&*-" 
-             aria-describedby="password-emoji" >
-
-             <!-- requerid pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$" -->
+             aria-describedby="password-emoji" requerid pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$">
             
             <span translate="no" id="password-emoji" class="input-group-text password-emoji">🙈</span>
 
@@ -36,7 +34,9 @@
 
         <div class="input-group mb-3 mx-auto w-auto">
             <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" 
-                type="password" title="Must confirm your password" aria-describedby="confirmation-emoji">
+                type="password" title="Must confirm your password" aria-describedby="confirmation-emoji"
+                requerid pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$">
+
             <span translate="no" id="confirmation-emoji" class="input-group-text password-emoji" id="visibility">🙈</span>
         </div>
 

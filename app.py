@@ -110,11 +110,11 @@ def reset_verified(token):
             flash("must confirm your password")
             return render_template("change_password.html", token=token)
 
-        elif validation_password(password) != True:
+        elif not validation_password(password):
             flash("the password does not meet the minimum requirements")
             return render_template("change_password.html", token=token)
         
-        elif validation_password(confirmation) != True:
+        elif not validation_password(confirmation):
             flash("the password does not meet the minimum requirements")
             return render_template("change_password.html", token=token)
             
@@ -148,14 +148,14 @@ def change_password():
         
         # Ensure old_password was provide        
         if not old_password:
-            flash("must provide your active password", "warning")
+            flash("must provide your active password")
             return render_template("change_password.html")
         
         # asking for active password
         check = db.execute("SELECT hash FROM users WHERE id = :id", {"id":session["user_id"]}).fetchone()
         if not check_password_hash(check.hash, old_password):
 
-            flash("incorrect password", "warning")
+            flash("incorrect password")
             return render_template("change_password.html")
 
         # Ensure password was register
@@ -168,11 +168,11 @@ def change_password():
             flash("must confirm your password")
             return render_template("change_password.html")
 
-        elif validation_password(password) != True:
+        elif not validation_password(password):
             flash("the password does not meet the minimum requirements")
             return render_template("change_password.html")
 
-        elif validation_password(confirmation) != True:
+        elif not validation_password(confirmation):
             flash("the password does not meet the minimum requirements")
             return render_template("change_password.html")
 
@@ -254,7 +254,7 @@ def register():
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
         email = request.form.get("email").lower()
-
+     
         # Ensure email was register
         if not email:
             flash("must register an email")
@@ -275,12 +275,12 @@ def register():
             flash("must confirm your password")
             return render_template("register.html")
 
-        elif validation_password(password) != True:
+        elif not validation_password(password):
             
             flash("the password does not meet the minimum requirements")
             return render_template("register.html")
 
-        elif validation_password(confirmation) != True:
+        elif not validation_password(confirmation):
             
             flash("the password does not meet the minimum requirements")
             return render_template("register.html")

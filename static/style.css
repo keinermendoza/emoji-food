@@ -24,16 +24,17 @@
   --bord--color: #7FBCD2;
   --pad--color: #A5FF4B;
   --key-word--color: blue;
+  --let--size: 1.4rem;
 }
 
 th {
-  font-size: 1.2rem;
+  font-size: var(--let--size);
 }
 
-p, a, #input-emoji, button {
+p, a, #input-emoji, button, td {
   font-family: 'Times New Roman', Times, serif;
   color: var(--let--color, black); 
-  font-size: 1.2rem;
+  font-size: var(--let--size);
 }
 body {
   background-color: var(--back--color, #A5F1E9);
@@ -255,8 +256,8 @@ button {
 
 /* for long widht screens */
 @media (min-width: 65.01rem) {
-  p, a {
-    font-size: 1.4rem;
+  :root {
+    --let--size: 1.4rem;
   }
   .grid-father {
     grid-template-areas:
@@ -273,8 +274,8 @@ button {
       font-size: 1.1rem;
       width: 48%;
   }
-  p, a, button {
-    font-size: 1.2rem;
+  :root{
+    --let--size: 1.2rem;
   }
   .grid-father {
     grid-template-areas:
@@ -303,8 +304,8 @@ button {
 
 /* para telefonos */
 @media (max-width: 50rem) {
-  p, a, button {
-    font-size: 1rem;
+  :root{
+    --let--size: 1rem;
   }
   .div-to-txt-serched {
       font-size: 1.2rem;

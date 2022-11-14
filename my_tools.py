@@ -18,8 +18,7 @@ def validation_password(password_input):
 
     # minimun length
     if (len(password_input) < 6):
-        
-        return False
+        return None
 
     for i in password_input:
 
@@ -39,14 +38,13 @@ def validation_password(password_input):
         if(i in specialchar):
             p+=1       
 
-        # valid password
-        if (l>=1 and u>=1 and p>=1 and d>=1 and l+p+u+d==len(password_input)):
-            return True
+    # valid password
+    if (l>=1 and u>=1 and p>=1 and d>=1 and l+p+u+d==len(password_input)):
+        return True
 
-        # invalid password
-        else:
-            
-            return False
+    # invalid password
+    else:            
+        return None
 
 
 # I toke an example from https://pyjwt.readthedocs.io/en/latest/usage.html
