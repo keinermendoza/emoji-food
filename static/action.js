@@ -75,15 +75,13 @@ window.onload = function() {
             window.scrollTo(0, document.body.scrollHeight);
             if(window.location.pathname == "/acount") {
 
-                if(window.location.pathname == "/acount") {
-                    document.getElementById('form-like-and-delete').setAttribute('action', '/acount');
-                    document.getElementById('form-like-and-delete').setAttribute('method', 'post');
-                    document.getElementById('button-item-selected-like').innerHTML = "Delete";
-                }
-
-                if(window.location.pathname == "/favorites") {
-                    document.getElementById('form-like-and-delete').setAttribute('action', '/favorites'); 
-                }
+                document.getElementById('form-like-and-delete').setAttribute('action', '/acount');
+                document.getElementById('form-like-and-delete').setAttribute('method', 'post');
+                document.getElementById('button-item-selected-like').innerHTML = "Delete";
+            }
+            
+            if(window.location.pathname == "/favorites") {
+                document.getElementById('procedencia').setAttribute('value', 'favorites');
             }
         }
         // searching from emojis buttons

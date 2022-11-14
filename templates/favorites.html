@@ -7,7 +7,7 @@
       <tr class="table-success">
         <th>Position</th>
         <th>Emoji</th>
-        <th>Likes</th>
+        <th>&#128077 Recibidos</th>
       </tr>
     </thead>
     <tbody>
@@ -27,4 +27,9 @@
   </table>
 </div>
 <div id="container-to-item-selected"></div>
+  {% endblock %}
+  {% block bottom %}
+  <script>
+    console.log(window.location.pathname);
+  </script>
   {% endblock %}

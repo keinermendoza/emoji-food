@@ -26,6 +26,10 @@
   --key-word--color: blue;
 }
 
+th {
+  font-size: 1.2rem;
+}
+
 p, a, #input-emoji, button {
   font-family: 'Times New Roman', Times, serif;
   color: var(--let--color, black); 

@@ -331,6 +331,7 @@ def likeIt():
 
     # take the emoj_id from the value of the like buttom
     emoji_id = request.args.get("emoji_id")
+    origin = request.args.get("procedencia")
 
     # if it is not the emoji_id break return message error 
     if not emoji_id:
@@ -345,7 +346,11 @@ def likeIt():
         db.execute("INSERT INTO preferences (user_id, emoji_id) VALUES (:user_id, :emoji_id)", {"user_id":session["user_id"], "emoji_id":emoji_id})
         db.commit()    
     # return a succes message
-    flash("Emoji store as favorite in ""My Acount"".")
+    flash("Emoji stored as favorite in your Acount.")
+    
+    # row 57 on action.js changes value of the input for favorites in case this "comes" from favorites page, for retuning to the same page.
+    if origin == "favorites":
+        return redirect(url_for("favorites"))
     return redirect(url_for("foodTable"))
 
 
