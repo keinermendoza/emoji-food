@@ -77,6 +77,14 @@ button {
   margin-bottom: 0.2rem;
 }
 
+li > a {
+  border-radius: 1rem;
+}
+
+li > a:hover {
+  background-color: rgb(235, 225, 117);
+}
+
 /* for emojis asociated with password */
 .password-emoji {
   font-size: 1.2rem;
@@ -167,9 +175,11 @@ button {
 
 /* FOR FOOD-TABLE PAGE */
 #input-emoji {
-  max-width: 4rem;
+  width: 8rem;
+  height: 2.5rem;
   border-radius: 1rem;
   text-align: center;
+  margin-bottom: 2.5rem;
 }
 .imagen {
   font-size: 1.5rem;
@@ -188,7 +198,7 @@ button {
   border-color: var(--key-word--color);
 }
 .container-imagenes {
-  margin: 2rem;
+  margin: 0 2rem 2rem 2rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -230,11 +240,26 @@ button {
   text-align: justify;
 }
 #button-item-selected-like {
+  font-size: 2rem;
+  background-color: blue;
+  padding: 0.1rem 0.6rem;
+  border-radius: 2rem;
+  border-style:groove;
+  border-width: 0.5rem;
   margin: 0 2rem; 
+  transition-property: background-color, border-color, border-style;
+  transition-duration: 0.8s;
+}
+#button-item-selected-like:hover {
+  cursor:pointer;
+  background-color: black;
+  border-color: goldenrod;
+  border-style:dotted;
 }
 
 /* FOR FAVORITES PAGE */
 .container-table {
+  border-style: dashed;
   display: flex;
   align-items: center;
   justify-content: center;

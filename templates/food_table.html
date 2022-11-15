@@ -3,13 +3,13 @@
 {% block main %}
 
 
-<p>You can search an Emoji pasting on this field.</p>
+<p>Paste an Emoji in "Food"</p>
 <input id="input-emoji" autocomplete="off" autofocus placeholder="Food" type="text">
 <button id="search-button"  value="🔍 Search">🔍 Search</button>
 
-<p>You can search an Emoji making click on one of them.</p>
+<p>Or click on one of the buttons below</p>
 <div class="container-imagenes">
-
+    
     {% for img in imgs %}
     <button class="imagen" translate="no" value="&#{{img.hexa}}">&#{{img.hexa}}</button>    
     {% endfor %}
