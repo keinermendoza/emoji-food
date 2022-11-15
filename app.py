@@ -3,6 +3,7 @@ from boto.s3.connection import S3Connection
 import os
 
 # database
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -37,8 +38,10 @@ app.config["MAIL_USERNAME"] = os.environ['MAIL_USERNAME']
 mail = Mail(app)
 
 # Configure Postrge Heroku as database
-engine = create_engine(os.environ['DATABASE'])
-db = scoped_session(sessionmaker(bind=engine))
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['DATABASE']
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy()
+db.init_app(app)
 
 @app.after_request
 def after_request(response):
@@ -61,7 +64,7 @@ def password_reset():
             return render_template("send_reset_password.html")
 
         # Check if email already exist in database
-        user = db.execute("SELECT username, id FROM users WHERE email = :email", {"email":email}).fetchone()
+        user = db.session.execute("SELECT username, id FROM users WHERE email = :email", {"email":email}).fetchone()
         if not user:
             flash("It's not register", 'error')
             return render_template("send_reset_password.html")
@@ -125,10 +128,10 @@ def reset_verified(token):
         
         # Storing data in database
         hash = generate_password_hash(password)
-        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":user_id})
-        db.commit()
+        db.session.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":user_id})
+        db.session.commit()
 
-        flash("Please check your email box, we'v send a link to restart your password", "message")
+        flash("Your password has been successfully changed")
         return redirect(url_for('login'))
 
     # Show form
@@ -152,7 +155,7 @@ def change_password():
             return render_template("change_password.html")
         
         # asking for active password
-        check = db.execute("SELECT hash FROM users WHERE id = :id", {"id":session["user_id"]}).fetchone()
+        check = db.session.execute("SELECT hash FROM users WHERE id = :id", {"id":session["user_id"]}).fetchone()
         if not check_password_hash(check.hash, old_password):
 
             flash("incorrect password")
@@ -184,12 +187,12 @@ def change_password():
         # Storing data in database
         hash = generate_password_hash(password)
 
-        db.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":session["user_id"]})
-        db.commit()
+        db.session.execute("UPDATE users SET hash = :hash WHERE  id = :id", {"hash":hash, "id":session["user_id"]})
+        db.session.commit()
 
         # Redirect to login
-        flash("Please check your email box, we'v send a link to restart your password")
-        return redirect("/login")
+        flash("Your password has been successfully changed")
+        return redirect("/")
 
     # Show form
     return render_template("change_password.html")
@@ -218,7 +221,7 @@ def login():
             return render_template("login.html")
 
         # Query database for username
-        user = db.execute("SELECT id, username, hash FROM users WHERE email = :email", {"email":email}).fetchone()
+        user = db.session.execute("SELECT id, username, hash FROM users WHERE email = :email", {"email":email}).fetchone()
         
         # Ensure username exists and password is correct
         if user is None or not check_password_hash(user.hash, password):
@@ -291,7 +294,7 @@ def register():
             return render_template("register.html")
 
         # Ensure email was not exist in dataBase
-        repeated_email = db.execute("SELECT email FROM users WHERE email = :email", {"email":email}).fetchone()
+        repeated_email = db.session.execute("SELECT email FROM users WHERE email = :email", {"email":email}).fetchone()
 
         if repeated_email:
             flash("This email already exist")
@@ -299,8 +302,8 @@ def register():
 
         # Storing data in database
         password = generate_password_hash(password)
-        db.execute("INSERT INTO users (username, email, hash) VALUES (:username,:email,:password)", {"username":username, "email":email, "password":password})
-        db.commit()
+        db.session.execute("INSERT INTO users (username, email, hash) VALUES (:username,:email,:password)", {"username":username, "email":email, "password":password})
+        db.session.commit()
 
         # seending welcome email
         message = welcome_message(email, username)
@@ -329,7 +332,7 @@ def foodTable():
     """DISPLAY TWO WAYS FOR SEARCH EMOJI-FOODS"""
 
     if request.method == "GET":
-        rows = db.execute("SELECT * FROM emojis").fetchall()   
+        rows = db.session.execute("SELECT * FROM emojis").fetchall()   
         return render_template("food_table.html", imgs=rows)
 
 @app.route("/search")
@@ -345,7 +348,7 @@ def search():
 
     if emoji_input:
         emoji_html = str(hex(ord(emoji_input))).replace("0x", "x")
-        emoji_data = db.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html})         
+        emoji_data = db.session.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html})         
         return render_template("search.html", emoji_data=emoji_data)
     
     # if the input is invalid also return the serach.html empty 
@@ -366,12 +369,12 @@ def likeIt():
         return redirect(url_for("foodTable"))
     
     # check if this preference already exist for this user
-    emoji = db.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id}).fetchone()
+    emoji = db.session.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id}).fetchone()
     
     # store the "like"
     if not emoji:
-        db.execute("INSERT INTO preferences (user_id, emoji_id) VALUES (:user_id, :emoji_id)", {"user_id":session["user_id"], "emoji_id":emoji_id})
-        db.commit()    
+        db.session.execute("INSERT INTO preferences (user_id, emoji_id) VALUES (:user_id, :emoji_id)", {"user_id":session["user_id"], "emoji_id":emoji_id})
+        db.session.commit()    
     # return a succes message
     flash("Emoji stored as favorite in your Acount.")
     
@@ -394,28 +397,28 @@ def acount():
             return redirect(url_for("foodTable"))
         
         # deleting the emoji from the preferences of the user.
-        db.execute("DELETE FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id})
-        db.commit()
+        db.session.execute("DELETE FROM preferences WHERE user_id = :user_id AND emoji_id = :emoji_id", {"user_id":session["user_id"], "emoji_id":emoji_id})
+        db.session.commit()
 
     # obtaind the username
-    username = db.execute("SELECT username FROM users WHERE id = :id ", {"id":session["user_id"]}).fetchone()
+    username = db.session.execute("SELECT username FROM users WHERE id = :id ", {"id":session["user_id"]}).fetchone()
     
     # verifying that exist records for this user
-    emoji_list = db.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id ", {"user_id":session["user_id"]}).fetchone()
+    emoji_list = db.session.execute("SELECT emoji_id FROM preferences WHERE user_id = :user_id ", {"user_id":session["user_id"]}).fetchone()
     
     # if aren't recording returning a simple page
     if not emoji_list:
         return render_template("acount.html", username=username)
     
     # if are recordings select and return in a list
-    user_favorites = db.execute("SELECT * FROM emojis WHERE id IN (SELECT emoji_id FROM preferences WHERE user_id = :user_id)", {"user_id":session["user_id"]}).fetchall()
+    user_favorites = db.session.execute("SELECT * FROM emojis WHERE id IN (SELECT emoji_id FROM preferences WHERE user_id = :user_id)", {"user_id":session["user_id"]}).fetchall()
     return render_template("acount.html", user_favorites=user_favorites, username=username)
 
 @app.route("/favorites")
 @login_required
 def favorites():
     """Show the 5 most popular emojis"""
-    favorite = db.execute("SELECT hexa, COUNT(emoji_id) AS vote FROM emojis INNER JOIN preferences ON emojis.id = preferences.emoji_id GROUP BY emojis.hexa ORDER BY COUNT(emoji_id) DESC LIMIT 5").fetchall()
+    favorite = db.session.execute("SELECT hexa, COUNT(emoji_id) AS vote FROM emojis INNER JOIN preferences ON emojis.id = preferences.emoji_id GROUP BY emojis.hexa ORDER BY COUNT(emoji_id) DESC LIMIT 5").fetchall()
     return render_template("favorites.html", favorite=favorite)
 
 if __name__ == '__main__':
