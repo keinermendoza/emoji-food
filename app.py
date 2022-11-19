@@ -60,13 +60,13 @@ def password_reset():
 
         # Check if user give an email
         if not email:
-            flash("Must give an email", 'error')
+            flash("Must give an email")
             return render_template("send_reset_password.html")
 
         # Check if email already exist in database
         user = db.session.execute("SELECT username, id FROM users WHERE email = :email", {"email":email}).fetchone()
         if not user:
-            flash("It's not register", 'error')
+            flash("It's not register")
             return render_template("send_reset_password.html")
         
         # making a token for restart password, using the user id and my_tools
@@ -79,7 +79,7 @@ def password_reset():
         mail.send(message)
         
         # show message of success and redirect to login page
-        flash("Check on your Mail Box", 'message')
+        flash("Check on your Mail Box")
         return render_template("send_reset_password.html") 
 
     # Show the restart-password form
@@ -123,7 +123,7 @@ def reset_verified(token):
             
         # Ensure password was submitted
         elif password != confirmation:
-            flash("confirm password not macht", "warning")
+            flash("confirm password not macht")
             return render_template("change_password.html", token=token)
         
         # Storing data in database
@@ -348,6 +348,7 @@ def search():
 
     if emoji_input:
         emoji_html = str(hex(ord(emoji_input))).replace("0x", "x")
+        
         emoji_data = db.session.execute("SELECT * FROM emojis WHERE hexa = :hexa", {"hexa":emoji_html})         
         return render_template("search.html", emoji_data=emoji_data)
     

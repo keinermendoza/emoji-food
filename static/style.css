@@ -33,12 +33,12 @@ th {
 
 p, a, #input-emoji, button, td {
   font-family: 'Times New Roman', Times, serif;
-  color: var(--let--color, black); 
+  color: var(--let--color); 
   font-size: var(--let--size);
 }
 body {
-  background-color: var(--back--color, #A5F1E9);
-  color: var(--let--color, black);
+  background-color: var(--back--color);
+  color: var(--let--color);
 }
 
 button {
