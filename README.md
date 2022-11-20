@@ -1,6 +1,6 @@
 # Emoji-Food
 
-#### Video Demo: <https://www.youtube.com/watch?v=5QIUln4EdlY>
+#### Video Demo: <https://www.youtube.com/watch?v=5QIUln4EdlY[](https://www.youtube.com/watch?v=5QIUln4EdlY)>
 
 #### Description:
 
@@ -508,9 +508,3 @@ window.onload = function() {
         }
     });
 ````
-
-## About the programmer
-
-I am Keiner Mendoza.
-This is my first project. I have had no collaborators.
-I consider it a finished project, it is currently available on Heroku, but due to the closure of free accounts I hope to move it to another hosting soon.
