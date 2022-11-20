@@ -1,8 +1,8 @@
 # Emoji-Food
 
-#### Video Demo: <pronto-subire-el-video>
+#### Video Demo: <https://www.youtube.com/watch?v=5QIUln4EdlY>
 
-#### Description
+#### Description:
 
 **Emoji Food** is a web application that displays information and photos of food represented by food, including those that are not food-related.
 In addition to allowing you to save the "likes" that users give to certain emojis, and display the 5 favorite emojis on the page along with their respective "likes" count.
