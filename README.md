@@ -1,6 +1,6 @@
 # Emoji-Food
 
-#### Video Demo: <https://www.youtube.com/watch?v=5QIUln4EdlY[](https://www.youtube.com/watch?v=5QIUln4EdlY)>
+#### Video Demo: <https://youtu.be/5QIUln4EdlY>
 
 #### Description:
 
