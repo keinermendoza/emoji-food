@@ -1,9 +1,5 @@
 # Emoji-Food
 
-#### Video Demo: <https://youtu.be/5QIUln4EdlY>
-
-#### Description:
-
 **Emoji Food** is a web application that displays information and photos of food represented by food, including those that are not food-related.
 In addition to allowing you to save the "likes" that users give to certain emojis, and display the 5 favorite emojis on the page along with their respective "likes" count.
 
@@ -15,14 +11,9 @@ The design of the page is responsive, which allows the content to adapt to the s
 
 * * *
 
-### **Inspiration**
-
-This application has been made by me, Keiner Mendoza, as a final project of the CS50x course. It is my first project and also my first experience with the world of programming. I had not paid attention to food emojis until in "the Lecture 10" a lady made a presentation about Emojis, and there I realized that there are many dishes (especially oriental food) that I was not able to identify. I visited some pages that had information about what those dishes could be, but none of them contained detailed explanations, so I decided to create a page that will try to achieve this.
-
-* * *
+## Demonstration [YouTube Video](https://youtu.be/5QIUln4EdlY)
 
 ### **Technologies**
-
 + Python 3
 + Flask
 + HTML
@@ -123,7 +114,7 @@ This effect is achieved with *Javascript*.
 
 I had difficulties factoring the function that achieves this effect, which is why it appears several times in the **action.js** document, however a clear example of its operation is presented below:
 
-```
+```javascript
 document.getElementById('password-emoji').addEventListener('click', function() {
             if (this.innerHTML == '🙈') {
                 this.innerHTML = '👀';
@@ -161,11 +152,11 @@ When the user begins to write the confirmation of his password, a text is displa
 > 2. Password not match yet
 > 3.Password match
 
-This function is an adaptation of another function I got from <https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/>
+This function is an adaptation of another [function](https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript)
 
 The following is presented as it is in the document **action.js**
 
-```
+```javascript
 var match = document.getElementById('password-state-match');
         
         [document.getElementById('password'), document.getElementById("confirmation")].forEach(item => {
@@ -262,9 +253,8 @@ In favorites, a count is displayed of the 5 emojis with the most likes on the pa
 ## **Database**
 
 ### **img.csv and reader.py**
-I initially created a database in Sqlite3 as implemented in the latest CS50x classes, however when I tried to port my database to Heroku, I got the following article
-<a><https://devcenter.heroku.com/articles/sqlite3></a> which explains that it is better to use Postgre instead.
-So reading and searching the web I was lucky enough to find the following <a href="https://www.youtube.com/watch?v=gu980iXwY5c">video</a> that explains how to implement a PostgreSQL database in Heroko.
+I initially created a database in Sqlite3, however when I tried to port my database to Heroku, I got the following [article](https://devcenter.heroku.com/articles/sqlite3), which explains that it is better to use Postgre instead.
+So reading and searching the web I was lucky enough to find the following [video](https://www.youtube.com/watch?v=gu980iXwY5c) that explains how to implement a PostgreSQL database in Heroko.
 In the "extra" folder of this repository there are two files "img.csv" and "reader.py" these were used in the database creation process.
 img.csv has all the information that is used for the
 Emoji table.
@@ -275,7 +265,7 @@ the first column of this file is the hexadecimal code in "string" format of the 
 This "hexadecimal" column is used to display content in the **food_table.html**, **favorites.html** and **acount.html** documents.
 this by means of loops written in *"Jinja"*
 
-```
+```jinja
 {% for img in imgs %}
     <button class="image" translate="no"
         value="&#{{img.hexa}">
@@ -308,7 +298,7 @@ The asynchronous functions that perform this action are found between line 60 an
 it is practically the same explained in lecture 9 of the CS50x course.
 
 
-````
+```javascript
 let searchButton = document.querySelector('#search-button');
         searchButton.addEventListener('click', async function() {
             let response = await fetch('/search?q=' + document.querySelector('#input-emoji').value);
@@ -317,19 +307,19 @@ let searchButton = document.querySelector('#search-button');
 
             afterSelected()
         });
-````
+```
 both functions perform the same job, the difference is that one of them is activated by means of the buttons displayed in the files "food_table.html", "favorites.html" and "acount.html".
 while the other does it from a "search" button that is present exclusively at the top of the "food_table.html" file.
 
 the third column of the "img.csv" document contains the paths of the images to be displayed within the "search.html" file. specifically on line 12.
-````
+```javascript
     <img translate="no" class="img-serched" src="{{data.img}}" alt="{{data.name}}">
-````
+```
 
 the fourth and last line of the "img.csv" document contains the descriptive text. specifically on line 15.
-````
+```jinja
     <p>{{data.description}}</p>
-````
+```
 
 In turn, the reader.py file has the purpose of loading the data of the "img.csv" document in the database.
 this was done before implementing this application so the presence of both "img.csv" and "reader.py" files is merely illustrative.
@@ -353,14 +343,14 @@ the following function modifies the route attribute of **search.html** in the ca
 
 Line 48 of **action.js**
 
-````
+```javascript
     if(window.location.pathname == "/acount") {
 
                 document.getElementById('form-like-and-delete').setAttribute('action', '/acount');
                 document.getElementById('form-like-and-delete').setAttribute('method', 'post');
                 document.getElementById('button-item-selected-like').innerHTML = "Delete";
             }
-````
+```
 
 This prevents the path **"/like_it"** from being accessed within the path **"/acount"**.
 
@@ -434,12 +424,12 @@ allows changing the password as long as the current password is provided and the
 
 ### **Clear-Night Mode**
 
-to create the appearance change use CSS variables. I didn't know there were variables in CSS, I found out about them from a comment on a video on another topic. here is some documentation https://developer.mozilla.org/es/docs/Web/CSS/Using_CSS_custom_propertie
+to create the appearance change use CSS variables. I didn't know there were variables in CSS, I found out about them from a comment on a video on another topic. here is some [documentation](https://developer.mozilla.org/es/docs/Web/CSS/Using_CSS_custom_propertie)
 
 with this I declare in these "variables" in the root, assigning the values ​​to corresponding to the clear theme.
 in line 21 of "style.css"
 
-````
+```css
 :root {
   --back--color: #A5F1E9;
   --let--color: rgb(0, 0, 0);
@@ -448,20 +438,20 @@ in line 21 of "style.css"
   --key-word--color: blue;
   --let--size: 1.4rem;
 }
-````
+```css
 
 then I apply those variables throughout the style.css document. for example, on line 39.
 
-````
+```css
 body {
   background-color: var(--back--color);
   color: var(--let--color);
 }
-````
+```
 
 Next I properly define the values ​​of the light and night themes. which I call "sun" and "moon".
 
-````
+```css
 /*Un atributo que creare en la root del html (creo) con en js*/
 [tema="sun"]{
   --back--color: #A5F1E9;
@@ -479,12 +469,12 @@ Next I properly define the values ​​of the light and night themes. which I c
   --pad--color: #E40DC8;
   --key-word--color: #A5F1E9;
 }
-````
+```
 
 In order to change themes I tried unsuccessfully to make a function in "app.py" to save the theme the user chose.
 
 finally after some googling i found out something about how to save some data on the client side using something called **"sessionStorage.mode"**.
-````
+```javascript
 document.documentElement.setAttribute('tema', sessionStorage.mode);
 
 window.onload = function() {
@@ -507,4 +497,4 @@ window.onload = function() {
             sessionStorage.mode = document.documentElement.getAttribute('tema');   
         }
     });
-````
+```
